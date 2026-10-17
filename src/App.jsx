@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Clock3, MapPin, Music2,
   Pause, Play, Heart, Flower2, Menu, X, Sparkles, ChevronDown,
-  ChevronLeft, ChevronRight
+  ChevronLeft, ChevronRight, Volume2, VolumeX
 } from "lucide-react";
 
 const wedding = {
@@ -188,23 +188,88 @@ function ScratchReveal({ dateLabel }) {
 
 
 function GateReveal({ onOpen }) {
+  const videoRef = useRef(null);
+  const fallbackTimers = useRef([]);
   const [opening, setOpening] = useState(false);
   const [curtainsOpen, setCurtainsOpen] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [videoFailed, setVideoFailed] = useState(false);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => () => {
+    fallbackTimers.current.forEach((timer) => window.clearTimeout(timer));
+  }, []);
+
+  const runCssFallback = () => {
+    setVideoFailed(true);
+    setVideoPlaying(false);
+    setOpening(true);
+    fallbackTimers.current.forEach((timer) => window.clearTimeout(timer));
+    fallbackTimers.current = [
+      window.setTimeout(() => setCurtainsOpen(true), 720),
+      window.setTimeout(onOpen, 2800)
+    ];
+  };
 
   const open = () => {
     if (opening) return;
     setOpening(true);
-    window.setTimeout(() => setCurtainsOpen(true), 720);
-    window.setTimeout(onOpen, 2800);
+
+    const video = videoRef.current;
+    if (video && !videoFailed) {
+      video.currentTime = 0;
+      video.muted = muted;
+      const playback = video.play();
+      if (playback && typeof playback.then === "function") {
+        playback.then(() => setVideoPlaying(true)).catch(runCssFallback);
+      } else {
+        setVideoPlaying(true);
+      }
+      return;
+    }
+
+    runCssFallback();
+  };
+
+  const handleVideoError = () => {
+    setVideoFailed(true);
+    setVideoReady(false);
+  };
+
+  const handleVideoEnded = () => {
+    setVideoPlaying(false);
+    onOpen();
+  };
+
+  const toggleSound = () => {
+    const nextMuted = !muted;
+    setMuted(nextMuted);
+    if (videoRef.current) videoRef.current.muted = nextMuted;
   };
 
   return (
     <motion.div
-      className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""}`}
+      className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""} ${videoReady && !videoFailed ? "has-video-frame" : ""} ${videoPlaying ? "is-video-playing" : ""}`}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: .65 }}
     >
+      <video
+        ref={videoRef}
+        className="gate-opening-video"
+        src="https://id-preview--fe6cb889-3609-4325-aafb-eb27d9dfd8b1.lovable.app/__l5e/assets-v1/ed2c9cdc-e26f-46e3-8d7e-c91764fe28f1/demo-v3-royal-grace.mp4"
+        playsInline
+        preload="auto"
+        muted={muted}
+        onLoadedData={() => setVideoReady(true)}
+        onCanPlay={() => setVideoReady(true)}
+        onEnded={handleVideoEnded}
+        onError={handleVideoError}
+        aria-label="Royal Grace wedding invitation opening"
+      />
+
+      <div className="gate-glow" />
       <div className="gate-backdrop">
         <div className="gate-backdrop-curtain gate-backdrop-curtain-left" />
         <div className="gate-backdrop-curtain gate-backdrop-curtain-right" />
@@ -217,6 +282,7 @@ function GateReveal({ onOpen }) {
           <span>❀</span><span>❦</span><span>✿</span><span>❦</span><span>❀</span>
         </div>
       </div>
+
       <div className="gate-doors" aria-hidden="true">
         <div className="gate-door gate-door-left">
           <div className="gate-door-leaves gate-door-leaves-top">❧</div>
@@ -229,14 +295,35 @@ function GateReveal({ onOpen }) {
           <div className="gate-door-mark">zareqia</div>
         </div>
       </div>
-      <div className="gate-hanging-line" aria-hidden="true" />
-      <button className="gate-plaque" onClick={open} disabled={opening} aria-label="Tap to open the wedding invitation">
-        <span className="gate-plaque-leaf">❦</span>
-        <span className="gate-plaque-text">{opening ? "WELCOME" : "TAP TO OPEN"}</span>
-        <span className="gate-plaque-leaf">❦</span>
+
+      {!videoPlaying && (
+        <>
+          <div className="gate-hanging-line" aria-hidden="true" />
+          <button
+            className="gate-plaque"
+            type="button"
+            onClick={open}
+            disabled={opening}
+            aria-label="Tap to open the wedding invitation"
+          >
+            <span className="gate-plaque-leaf">❦</span>
+            <span className="gate-plaque-text">{opening ? "WELCOME" : "TAP TO OPEN"}</span>
+            <span className="gate-plaque-leaf">❦</span>
+          </button>
+          <span className="gate-watermark" aria-hidden="true">❧</span>
+          <span className="gate-bottom-note">ZAYN & NORA · 31 JANUARY 2027</span>
+        </>
+      )}
+
+      <button
+        className="gate-sound-button"
+        type="button"
+        onClick={toggleSound}
+        aria-label={muted ? "Unmute opening video" : "Mute opening video"}
+        title={muted ? "Unmute" : "Mute"}
+      >
+        {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
       </button>
-      <span className="gate-watermark" aria-hidden="true">❧</span>
-      <span className="gate-bottom-note">ZAYN & NORA · 31 JANUARY 2027</span>
     </motion.div>
   );
 }
