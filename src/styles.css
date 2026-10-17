@@ -2262,3 +2262,84 @@ body, button, input, select, textarea {
     transition: none;
   }
 }
+
+
+/* Actual Royal Grace opening video overlay */
+.gate-opening-video {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  background: #7f886e;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.gate-screen.is-video-playing .gate-opening-video {
+  opacity: 1;
+}
+.gate-screen.is-video-playing .gate-glow,
+.gate-screen.is-video-playing .gate-backdrop,
+.gate-screen.is-video-playing .gate-doors,
+.gate-screen.is-video-playing .gate-hanging-line,
+.gate-screen.is-video-playing .gate-plaque,
+.gate-screen.is-video-playing .gate-watermark,
+.gate-screen.is-video-playing .gate-bottom-note {
+  opacity: 0;
+  pointer-events: none;
+}
+.gate-screen.is-video-playing::before,
+.gate-screen.is-video-playing::after {
+  opacity: 0;
+}
+.gate-sound-button {
+  position: absolute;
+  z-index: 15;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, env(safe-area-inset-right));
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(245, 236, 208, .48);
+  border-radius: 5px;
+  color: #fff7e2;
+  background: rgba(77, 95, 66, .86);
+  box-shadow: 0 3px 12px rgba(34, 41, 28, .18);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background .2s ease, transform .2s ease;
+}
+.gate-sound-button:hover {
+  background: rgba(56, 75, 48, .95);
+  transform: translateY(-1px);
+}
+.gate-screen.is-video-playing .gate-sound-button {
+  border-color: rgba(255, 248, 223, .25);
+  background: rgba(57, 75, 50, .8);
+}
+.gate-screen.is-opening:not(.is-video-playing) .gate-sound-button {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (max-width: 430px) {
+  .gate-opening-video {
+    object-fit: cover;
+    object-position: center;
+  }
+  .gate-sound-button {
+    width: 36px;
+    height: 36px;
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-opening-video,
+  .gate-sound-button { transition: none; }
+}
