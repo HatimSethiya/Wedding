@@ -7,26 +7,26 @@ import {
 } from "lucide-react";
 
 const wedding = {
-  bride: "Zainab",
-  groom: "Mufaddal",
-  date: new Date("2026-12-20T17:00:00"),
-  dateLabel: "Sunday, 20 December 2026",
-  venue: "The Royal Courtyard",
-  address: "Udaipur, Rajasthan, India",
+  bride: "Zayn",
+  groom: "Nora",
+  date: new Date("2027-01-31T10:30:00"),
+  dateLabel: "Sunday, 31 January 2027",
+  venue: "Grand Palace Hall",
+  address: "City Centre, London",
   story: [
-    { number: "01", title: "A beautiful beginning", year: "THE FIRST CHAPTER", body: "Some stories begin with a glance, others with a conversation. Ours began quietly, then grew into something we knew we wanted to keep choosing, every day." },
-    { number: "02", title: "Growing together", year: "THE JOURNEY", body: "Through little moments, long conversations and the kindness of our families, two separate journeys slowly became one shared path." },
-    { number: "03", title: "Forever starts here", year: "THE NEXT CHAPTER", body: "Now, with grateful hearts and our favourite people beside us, we invite you to celebrate the beginning of our forever." }
+    { number: "01", title: "A beautiful beginning", year: "WITH LOVE", body: "Two hearts, two families, and a thousand little moments have brought us to this day. We would be honoured to have you with us." },
+    { number: "02", title: "A day to remember", year: "THE CELEBRATION", body: "Join us for a joyful celebration filled with warm wishes, beautiful traditions, and the people who mean the most to us." },
+    { number: "03", title: "Forever begins here", year: "OUR NEXT CHAPTER", body: "Your presence is the most special gift. We look forward to celebrating this new beginning with you." }
   ],
   events: [
-    { name: "Mehndi Evening", date: "Saturday, 19 December", time: "5:30 PM onwards", description: "An evening of colour, music and joyful traditions.", icon: "✺" },
-    { name: "Wedding Ceremony", date: "Sunday, 20 December", time: "5:00 PM onwards", description: "A heartfelt celebration as two families become one.", icon: "❋" },
-    { name: "Dinner & Celebration", date: "Sunday, 20 December", time: "8:00 PM onwards", description: "Good food, warm wishes and memories to take home.", icon: "✧" }
+    { name: "Mehndi", date: "Thursday, 28 January 2027", time: "3:30 PM onwards", description: "A joyful afternoon of colour, music, and beautiful traditions.", icon: "✺" },
+    { name: "Haldi", date: "Friday, 29 January 2027", time: "8:00 PM onwards", description: "An intimate evening with family, laughter, and blessings.", icon: "❋" },
+    { name: "Wedding Reception", date: "Sunday, 31 January 2027", time: "10:30 AM onwards", description: "Please join us as two families become one.", icon: "✧" }
   ],
   family: [
-    { name: "A loving family", relation: "With blessings and gratitude" },
-    { name: "Our parents", relation: "Our first teachers in love" },
-    { name: "Our loved ones", relation: "The people who make it home" }
+    { name: "Mr. & Mrs. Malik", relation: "Parents of the groom" },
+    { name: "Mr. & Mrs. Noor", relation: "Parents of the bride" },
+    { name: "Our loved ones", relation: "With love and blessings" }
   ]
 };
 
@@ -93,23 +93,31 @@ function ScratchReveal({ dateLabel }) {
       context.scale(ratio, ratio);
 
       const cover = context.createLinearGradient(0, 0, bounds.width, bounds.height);
-      cover.addColorStop(0, "#f0e2bd");
-      cover.addColorStop(0.5, "#d9c18b");
-      cover.addColorStop(1, "#f4ead3");
+      cover.addColorStop(0, "#c5c6a7");
+      cover.addColorStop(.48, "#879777");
+      cover.addColorStop(1, "#b8bea0");
       context.fillStyle = cover;
       context.fillRect(0, 0, bounds.width, bounds.height);
 
-      context.strokeStyle = "rgba(116, 81, 35, 0.7)";
+      for (let i = 0; i < 55; i += 1) {
+        const x = (i * 37) % bounds.width;
+        const y = (i * 61) % bounds.height;
+        context.beginPath();
+        context.arc(x, y, (i % 3) + .5, 0, Math.PI * 2);
+        context.fillStyle = "rgba(247, 240, 214, .22)";
+        context.fill();
+      }
+
+      context.strokeStyle = "rgba(245, 232, 194, .8)";
       context.lineWidth = 1;
-      context.strokeRect(9, 9, bounds.width - 18, bounds.height - 18);
-      context.fillStyle = "#36513d";
+      context.strokeRect(8, 8, bounds.width - 16, bounds.height - 16);
+      context.fillStyle = "#f7efd6";
       context.textAlign = "center";
       context.textBaseline = "middle";
       context.font = "10px Marcellus, Georgia, serif";
-      context.fillText("✦  SCRATCH TO REVEAL  ✦", bounds.width / 2, bounds.height / 2 - 5);
-      context.font = "italic 12px Georgia, serif";
-      context.fillStyle = "#66512f";
-      context.fillText("A little surprise awaits", bounds.width / 2, bounds.height / 2 + 14);
+      context.fillText("✦  SCRATCH HERE  ✦", bounds.width / 2, bounds.height / 2);
+      context.font = "italic 10px Georgia, serif";
+      context.fillText("to reveal your date", bounds.width / 2, bounds.height / 2 + 18);
     };
 
     paintCover();
@@ -127,11 +135,11 @@ function ScratchReveal({ dateLabel }) {
 
     context.globalCompositeOperation = "destination-out";
     context.beginPath();
-    context.arc(event.clientX - bounds.left, event.clientY - bounds.top, 21, 0, Math.PI * 2);
+    context.arc(event.clientX - bounds.left, event.clientY - bounds.top, 19, 0, Math.PI * 2);
     context.fill();
 
     scratchState.current.strokes += 1;
-    if (scratchState.current.strokes >= 24) {
+    if (scratchState.current.strokes >= 25) {
       scratchState.current.active = false;
       setRevealed(true);
     }
@@ -150,76 +158,93 @@ function ScratchReveal({ dateLabel }) {
   };
 
   return (
-    <div className={`scratch-card ${revealed ? "is-revealed" : ""}`}>
-      <div className="scratch-card-content">
-        <span className="eyebrow">A DATE TO REMEMBER</span>
-        <strong>{dateLabel}</strong>
-        <span className="scratch-card-note">With joy in our hearts, we invite you</span>
+    <div className={`scratch-panel ${revealed ? "is-revealed" : ""}`}>
+      <p className="script scratch-heading">Scratch to Reveal</p>
+      <div className="scratch-intro">A little surprise is waiting for you</div>
+      <div className="scratch-card">
+        <div className="scratch-heart">
+          <div className="scratch-card-content">
+            <span>You're Invited</span>
+            <strong>{dateLabel.replace("Sunday, ", "")}</strong>
+            <small>Sunday<br />10:30 AM</small>
+          </div>
+          {!revealed && (
+            <canvas
+              ref={canvasRef}
+              className="scratch-reveal-canvas"
+              aria-label="Scratch the heart to reveal the wedding date"
+              onPointerDown={beginScratch}
+              onPointerMove={scratch}
+              onPointerUp={endScratch}
+              onPointerCancel={endScratch}
+            />
+          )}
+        </div>
       </div>
-      {!revealed && (
-        <canvas
-          ref={canvasRef}
-          className="scratch-reveal-canvas"
-          aria-label="Scratch this card to reveal the wedding date"
-          onPointerDown={beginScratch}
-          onPointerMove={scratch}
-          onPointerUp={endScratch}
-          onPointerCancel={endScratch}
-        />
-      )}
+      <a className="save-date-button" href="#countdown"><Heart size={14} /> SAVE THE DATE</a>
     </div>
   );
 }
 
+
 function GateReveal({ onOpen }) {
   const [opening, setOpening] = useState(false);
+  const [curtainsOpen, setCurtainsOpen] = useState(false);
+
   const open = () => {
     if (opening) return;
     setOpening(true);
-    window.setTimeout(onOpen, 1450);
+    window.setTimeout(() => setCurtainsOpen(true), 720);
+    window.setTimeout(onOpen, 2050);
   };
+
   return (
-    <motion.div className={`gate-screen ${opening ? "is-opening" : ""}`}
-      initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: .7 }}>
-      <div className="gate-glow" />
-      <div className="gate-caption">
-        <span className="eyebrow">A CELEBRATION OF LOVE</span>
-        <div className="gate-monogram">Z<span>&</span>M</div>
-        <p className="script">A new chapter begins</p>
-      </div>
-      <div className="gate-sparkles" aria-hidden="true">
-        <span>✦</span><span>✧</span><span>✥</span><span>✧</span><span>✦</span>
+    <motion.div
+      className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""}`}
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: .65 }}
+    >
+      <div className="gate-backdrop">
+        <div className="gate-backdrop-curtain gate-backdrop-curtain-left" />
+        <div className="gate-backdrop-curtain gate-backdrop-curtain-right" />
+        <div className="gate-backdrop-copy">
+          <span className="eyebrow">WE'RE GETTING MARRIED</span>
+          <span className="script">Zayn <i>&</i> Nora</span>
+          <span className="gate-backdrop-date">31 · 01 · 2027</span>
+        </div>
+        <div className="gate-backdrop-flowers" aria-hidden="true">
+          <span>❀</span><span>❦</span><span>✿</span><span>❦</span><span>❀</span>
+        </div>
       </div>
       <div className="gate-doors" aria-hidden="true">
         <div className="gate-door gate-door-left">
-          <div className="door-inner">
-            <span className="door-crown">❦</span>
-            <div className="door-arch"><span>ZM</span></div>
-            <div className="door-ornament">❧</div>
-            <span className="door-handle"><i /></span>
-          </div>
+          <div className="gate-door-leaves gate-door-leaves-top">❧</div>
+          <div className="gate-door-leaves gate-door-leaves-bottom">❧</div>
+          <div className="gate-door-mark">zareqia</div>
         </div>
         <div className="gate-door gate-door-right">
-          <div className="door-inner">
-            <span className="door-crown">❦</span>
-            <div className="door-arch"><span>✦</span></div>
-            <div className="door-ornament">❧</div>
-            <span className="door-handle"><i /></span>
-          </div>
+          <div className="gate-door-leaves gate-door-leaves-top">❧</div>
+          <div className="gate-door-leaves gate-door-leaves-bottom">❧</div>
+          <div className="gate-door-mark">zareqia</div>
         </div>
       </div>
-      <button className="gate-open-button" onClick={open} disabled={opening}>
-        <span>{opening ? "Welcome, with love" : "Enter the celebration"}</span><ArrowUpRight size={16} />
+      <div className="gate-hanging-line" aria-hidden="true" />
+      <button className="gate-plaque" onClick={open} disabled={opening} aria-label="Tap to open the wedding invitation">
+        <span className="gate-plaque-leaf">❦</span>
+        <span className="gate-plaque-text">{opening ? "WELCOME" : "TAP TO OPEN"}</span>
+        <span className="gate-plaque-leaf">❦</span>
       </button>
-      <span className="gate-bottom-note">PLEASE JOIN US AS WE BEGIN OUR FOREVER</span>
+      <span className="gate-watermark" aria-hidden="true">❧</span>
+      <span className="gate-bottom-note">ZAYN & NORA · 31 JANUARY 2027</span>
     </motion.div>
   );
 }
 
+
 function App() {
   const [opened, setOpened] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
-  const [mobileMenu, setMobileMenu] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(null);
   const [rsvp, setRsvp] = useState({ name: "", guests: "2", attendance: "yes", message: "" });
   const [rsvpSent, setRsvpSent] = useState(false);
@@ -245,10 +270,6 @@ function App() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeGalleryIndex]);
 
-  const navItems = [
-    ["Our Story", "#story"], ["The Celebration", "#events"], ["Gallery", "#gallery"], ["Venue", "#venue"]
-  ];
-
   const submitRsvp = (event) => {
     event.preventDefault();
     setRsvpSent(true);
@@ -256,102 +277,214 @@ function App() {
 
   return (
     <main className="site-shell">
-      <AnimatePresence>{!opened && <GateReveal onOpen={() => { setOpened(true); window.scrollTo({ top: 0, behavior: "instant" }); }} />}</AnimatePresence>
+      <AnimatePresence>
+        {!opened && <GateReveal onOpen={() => { setOpened(true); window.scrollTo({ top: 0, behavior: "instant" }); }} />}
+      </AnimatePresence>
+
       <div className={`invitation-site ${opened ? "is-visible" : ""}`} aria-hidden={!opened}>
-        <div className="topbar"><span>TOGETHER WITH THEIR FAMILIES</span><span className="topbar-star">✦</span><span>JOYFULLY INVITE YOU</span></div>
-        <nav className="site-nav">
-          <a className="brand-mark" href="#top" aria-label="Back to top">Z<span>&</span>M</a>
-          <div className={`nav-links ${mobileMenu ? "nav-links-open" : ""}`}>
-            {navItems.map(([label, href]) => <a key={href} href={href} onClick={() => setMobileMenu(false)}>{label}</a>)}
-            <a className="nav-rsvp" href="#rsvp" onClick={() => setMobileMenu(false)}>RSVP <ArrowUpRight size={14} /></a>
-          </div>
-          <button className="mobile-menu-button" aria-label={mobileMenu ? "Close menu" : "Open menu"} onClick={() => setMobileMenu(!mobileMenu)}>{mobileMenu ? <X /> : <Menu />}</button>
-        </nav>
+        <button
+          type="button"
+          className={`music-button ${musicPlaying ? "music-playing" : ""}`}
+          onClick={() => setMusicPlaying((value) => !value)}
+          aria-label={musicPlaying ? "Mute music" : "Unmute music"}
+          title="Music toggle preview"
+        >
+          <Music2 size={15} />
+        </button>
 
-        <section className="hero" id="top">
-          <div className="hero-side-note">THE BEGINNING OF ALWAYS <span>—</span> EST. 2026</div>
-          <div className="hero-frame">
-            <span className="frame-corner corner-tl" /><span className="frame-corner corner-tr" />
-            <span className="frame-corner corner-bl" /><span className="frame-corner corner-br" />
-            <motion.p className="script hero-script" initial={{ opacity: 0, y: 14 }} animate={opened ? { opacity: 1, y: 0 } : {}} transition={{ delay: .25, duration: .8 }}>With the blessings of our families</motion.p>
-            <p className="eyebrow">REQUEST THE PLEASURE OF YOUR COMPANY</p>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={opened ? { opacity: 1, y: 0 } : {}} transition={{ delay: .4, duration: .9 }}>
-              <span>{wedding.bride}</span><em>&</em><span>{wedding.groom}</span>
-            </motion.h1>
-            <OrnamentalRule className="hero-rule" />
-            <ScratchReveal dateLabel={wedding.dateLabel} />
-            <div className="hero-image-wrap">
-              <img src={galleryImages[0]} alt="Romantic wedding floral arrangement" loading="eager" />
-              <span className="image-stamp">THE<br />WEDDING<br />CELEBRATION</span>
-            </div>
-            <p className="hero-venue">{wedding.venue} <span>·</span> {wedding.address}</p>
-            <a className="scroll-cue" href="#story"><span><ArrowDown size={16} /></span> DISCOVER OUR STORY</a>
+        <section className="hero royal-cover" id="top">
+          <div className="cover-curtain cover-curtain-left" aria-hidden="true" />
+          <div className="cover-curtain cover-curtain-right" aria-hidden="true" />
+          <div className="hero-frame royal-cover-frame">
+            <span className="cover-heart" aria-hidden="true">♥</span>
+            <p className="script cover-script">We're getting married</p>
+            <div className="cover-divider"><span />♥<span /></div>
+            <h1><span>{wedding.bride}</span><em>&</em><span>{wedding.groom}</span></h1>
+            <p className="cover-family">Son of Mr. & Mrs. Malik<br /><span>B.E., M.S. · Data Scientist</span></p>
+            <span className="cover-ampersand">&</span>
+            <p className="cover-family">Daughter of Mr. & Mrs. Noor<br /><span>MBA · Public Relations</span></p>
+            <div className="cover-bottom-flourish" aria-hidden="true">❦　✧　❦</div>
           </div>
-          <div className="hero-botanical botanical-left" aria-hidden="true">❧</div>
-          <div className="hero-botanical botanical-right" aria-hidden="true">❧</div>
+          <div className="cover-garden" aria-hidden="true">
+            <div className="garden-vase garden-vase-left">❀</div>
+            <div className="garden-fountain"><span>✧</span></div>
+            <div className="garden-vase garden-vase-right">❀</div>
+          </div>
         </section>
 
-        <section className="welcome-band">
-          <Flower2 size={22} strokeWidth={1} />
-          <p>Two hearts, two families, one beautiful beginning. We would be honoured to celebrate this cherished moment with you.</p>
-          <Flower2 size={22} strokeWidth={1} />
+        <section className="message-section floral-section" id="story">
+          <span className="section-emblem">♥</span>
+          <p className="script message-heading">A celebration of love</p>
+          <h2>We are honoured to welcome you</h2>
+          <div className="small-leaf-divider">❧　♥　❧</div>
+          <p className="message-copy">to the wedding ceremony of <strong>{wedding.bride} & {wedding.groom}</strong> as they begin their journey together in faith and love.</p>
+          <p className="message-copy">Thank you for being part of this blessed occasion. Your presence means the world to us.</p>
         </section>
 
-        <section className="story-section section-pad" id="story">
-          <SectionTitle eyebrow="A TALE OF TWO HEARTS" title="Our Story" note="A thousand little moments led us here. These are a few of our favourites." />
-          <div className="story-list">
-            {wedding.story.map((item, index) => (
-              <motion.article className={`story-row ${index % 2 ? "story-row-reverse" : ""}`} key={item.number}
-                initial={{ opacity: 0, y: 35 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .2 }} transition={{ duration: .75 }}>
-                <div className="story-photo"><img src={galleryImages[index + 1]} alt="Wedding story moment" loading="lazy" /><span className="photo-index">{item.number}</span></div>
-                <div className="story-copy"><span className="eyebrow">{item.year}</span><h3>{item.title}</h3><OrnamentalRule /><p>{item.body}</p></div>
-              </motion.article>
+        <section className="scratch-section floral-section" id="date">
+          <ScratchReveal dateLabel={wedding.dateLabel} />
+        </section>
+
+        <section className="save-date-section floral-section" id="countdown">
+          <span className="save-date-ribbon"><Heart size={12} fill="currentColor" /> SAVE THE DATE</span>
+          <div className="save-date-photo">
+            <img src={galleryImages[1]} alt="A couple walking together on their wedding day" loading="lazy" />
+          </div>
+          <p className="script countdown-heading">Counting Down to Forever</p>
+          <div className="countdown-grid">
+            {countdown.map(([label, value]) => (
+              <div className="countdown-unit" key={label}>
+                <strong>{String(value).padStart(2, "0")}</strong>
+                <span>{label}</span>
+              </div>
             ))}
           </div>
         </section>
 
-        <section className="countdown-section">
-          <div className="countdown-text"><span className="script">The day draws near</span><SectionTitle eyebrow="COUNTING EVERY MOMENT" title="Until We Say I Do" /></div>
-          <div className="countdown-grid">{countdown.map(([label, value]) => <div className="countdown-unit" key={label}><strong>{String(value).padStart(2, "0")}</strong><span>{label}</span></div>)}</div>
-          <span className="countdown-flourish" aria-hidden="true">❧</span>
-        </section>
-
-        <section className="events-section section-pad" id="events">
-          <SectionTitle eyebrow="SAVE THE DATE" title="Wedding Festivities" note="A few meaningful gatherings, made even more special with you by our side." />
-          <div className="event-grid">
-            {wedding.events.map((event, index) => <motion.article className="event-card" key={event.name}
-              initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .15 }} transition={{ duration: .65, delay: index * .12 }}>
-              <div className="event-top"><span>CELEBRATION {String(index + 1).padStart(2, "0")}</span><i>{event.icon}</i></div>
-              <h3>{event.name}</h3><OrnamentalRule />
-              <p className="event-date"><CalendarDays size={15} />{event.date}</p>
-              <p className="event-time"><Clock3 size={15} />{event.time}</p>
-              <p className="event-description">{event.description}</p>
-              <a href="#venue" className="text-link">EVENT DETAILS <ArrowUpRight size={14} /></a>
-            </motion.article>)}
+        <section className="program-section floral-section">
+          <span className="section-emblem">◷</span>
+          <p className="script page-script">Program Timeline</p>
+          <div className="timeline-date">SUNDAY, 31 JANUARY 2027</div>
+          <div className="program-timeline">
+            <article className="timeline-item">
+              <span className="timeline-time">10:00 AM</span>
+              <span className="timeline-dot" />
+              <div><h3>Guest Arrival</h3><p>Warm welcomes and a moment to settle in.</p></div>
+            </article>
+            <article className="timeline-item">
+              <span className="timeline-time">10:30 AM</span>
+              <span className="timeline-dot" />
+              <div><h3>Wedding Ceremony</h3><p>Your presence makes our day complete.</p></div>
+            </article>
+            <article className="timeline-item">
+              <span className="timeline-time">12:30 PM</span>
+              <span className="timeline-dot" />
+              <div><h3>Reception & Lunch</h3><p>Food, family, and cherished memories.</p></div>
+            </article>
           </div>
         </section>
 
-        <section className="family-section">
-          <div className="family-pattern" aria-hidden="true" />
-          <SectionTitle eyebrow="ROOTED IN LOVE" title="Our Families" note="With gratitude for the people whose love brought us here." />
-          <div className="family-grid">{wedding.family.map((member) => <article className="family-card" key={member.name}><span>✧</span><h3>{member.name}</h3><p>{member.relation}</p></article>)}</div>
-          <p className="family-signoff script">With their love and blessings</p>
+        <section className="venue-section floral-section" id="venue">
+          <div className="venue-card">
+            <MapPin size={19} className="section-icon" />
+            <p className="script page-script">Venue</p>
+            <h2>{wedding.venue}</h2>
+            <p className="venue-address">{wedding.address}</p>
+            <div className="venue-map">
+              <iframe
+                title={`Map showing ${wedding.venue} in ${wedding.address}`}
+                src="https://maps.google.com/maps?q=Grand%20Palace%20Hall%20London&output=embed"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+            <a className="venue-map-button" href="https://maps.google.com/?q=Grand+Palace+Hall+London" target="_blank" rel="noreferrer">View on Google Maps</a>
+          </div>
         </section>
 
-        <section className="gallery-section section-pad" id="gallery">
-          <SectionTitle eyebrow="LITTLE MOMENTS, FOREVER MEMORIES" title="Captured with Love" note="A glimpse into the beauty of the moments that brought us here." />
-          <div className="gallery-grid">{galleryImages.map((image, index) => <motion.figure key={image} className={`gallery-item gallery-item-${index % 6}`}
-            role="button" tabIndex={0} aria-label={`Open wedding photo ${index + 1}`}
-            onClick={() => setActiveGalleryIndex(index)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                setActiveGalleryIndex(index);
-              }
-            }}
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .15 }} transition={{ duration: .65, delay: (index % 3) * .08 }}>
-            <img src={image} alt={`Wedding memory ${index + 1}`} loading="lazy" /><figcaption><span>MEMORY NO. 0{index + 1} · VIEW</span><Heart size={13} /></figcaption>
-          </motion.figure>)}</div>
+        <section className="dress-code-section floral-section">
+          <span className="section-emblem">♧</span>
+          <p className="script page-script">Dress Code</p>
+          <div className="dress-code-grid">
+            <article><span className="dress-code-icon">♙</span><h3>Women</h3><p>Elegant formal attire in pastel or jewel tones.</p></article>
+            <article><span className="dress-code-icon">♙</span><h3>Men</h3><p>Suit or traditional formal wear.</p></article>
+          </div>
+        </section>
+
+        <section className="pre-events-section floral-section">
+          <span className="section-emblem">✧</span>
+          <p className="script page-script">Pre-Wedding Events</p>
+          <div className="detail-event"><span>THURSDAY, 28 JANUARY 2027</span><h3>3:30 PM · Mehndi</h3><p>At the bride's house</p></div>
+          <div className="detail-event"><span>FRIDAY, 29 JANUARY 2027</span><h3>8:00 PM · Haldi</h3><p>At the groom's house</p></div>
+        </section>
+
+        <section className="transport-section floral-section">
+          <span className="section-emblem">⌁</span>
+          <p className="script page-script">Transportation</p>
+          <p>Shuttle service will be available from the city centre to the venue.</p>
+          <p className="detail-note">Pickup point: Central Station, at 9:45 AM.</p>
+        </section>
+
+        <section className="accommodation-section floral-section">
+          <span className="section-emblem">⌂</span>
+          <p className="script page-script">Accommodation</p>
+          <p>Special rates are available at partner hotels for our wedding guests.</p>
+          <p className="detail-note">Please mention “ZAYNNO​RA2027” when booking.</p>
+        </section>
+
+        <section className="gifts-section floral-section">
+          <span className="section-emblem">♧</span>
+          <p className="script page-script">Gifts</p>
+          <p>Your love, blessings, and presence are the greatest gifts you could ever ask for.</p>
+        </section>
+
+        <section className="rsvp-section floral-section" id="rsvp">
+          <span className="section-emblem">✉</span>
+          <p className="script page-script">RSVP</p>
+          <p className="rsvp-intro-copy">Kindly let us know if you can join us.</p>
+          {rsvpSent ? (
+            <div className="rsvp-success">
+              <Sparkles size={25} />
+              <h3>Thank you, {rsvp.name || "dear friend"}!</h3>
+              <p>Your response has been noted in this preview. It is not sent to a server yet.</p>
+              <button className="save-date-button" type="button" onClick={() => setRsvpSent(false)}>Edit response</button>
+            </div>
+          ) : (
+            <form className="rsvp-form" onSubmit={submitRsvp}>
+              <label>Your Name *<input required value={rsvp.name} onChange={(event) => setRsvp({ ...rsvp, name: event.target.value })} placeholder="Your full name" /></label>
+              <label>Will you be attending? *
+                <select required value={rsvp.attendance} onChange={(event) => setRsvp({ ...rsvp, attendance: event.target.value })}>
+                  <option value="">Select...</option><option value="yes">Joyfully accepts</option><option value="no">Regretfully declines</option>
+                </select>
+              </label>
+              <label>Number of guests
+                <select value={rsvp.guests} onChange={(event) => setRsvp({ ...rsvp, guests: event.target.value })}>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                </select>
+              </label>
+              <label>Your Message<textarea rows="3" value={rsvp.message} onChange={(event) => setRsvp({ ...rsvp, message: event.target.value })} placeholder="Write your wishes..." /></label>
+              <button className="rsvp-send-button" type="submit">Send Message</button>
+              <p className="form-note">Preview only · responses are not saved to a server yet</p>
+            </form>
+          )}
+        </section>
+
+        <section className="end-section floral-section">
+          <span className="section-emblem">♥</span>
+          <p className="script page-script">We can't wait to<br />celebrate with you!</p>
+          <p className="end-signature">{wedding.bride} & {wedding.groom}</p>
+          <p className="footer-date">{wedding.dateLabel}</p>
+        </section>
+
+        <section className="gallery-section floral-section" id="gallery">
+          <p className="script page-script">Moments of Love</p>
+          <p className="section-subtitle">A few memories we'd love to share</p>
+          <div className="gallery-grid">
+            {galleryImages.map((image, index) => (
+              <motion.figure
+                key={image}
+                className={`gallery-item gallery-item-${index % 6}`}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open wedding photo ${index + 1}`}
+                onClick={() => setActiveGalleryIndex(index)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    setActiveGalleryIndex(index);
+                  }
+                }}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: .15 }}
+                transition={{ duration: .55, delay: (index % 3) * .07 }}
+              >
+                <img src={image} alt={`Wedding memory ${index + 1}`} loading="lazy" />
+                <figcaption><span>MEMORY 0{index + 1}</span><Heart size={13} /></figcaption>
+              </motion.figure>
+            ))}
+          </div>
           {activeGalleryIndex !== null && (
             <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Wedding photo slideshow" onClick={(event) => {
               if (event.target === event.currentTarget) setActiveGalleryIndex(null);
@@ -360,59 +493,12 @@ function App() {
               <button type="button" className="gallery-nav gallery-prev" aria-label="Previous photo" onClick={() => setActiveGalleryIndex((index) => (index - 1 + galleryImages.length) % galleryImages.length)}><ChevronLeft size={26} /></button>
               <figure className="gallery-lightbox-photo">
                 <img src={galleryImages[activeGalleryIndex]} alt={`Wedding memory ${activeGalleryIndex + 1}`} />
-                <figcaption>MEMORY NO. 0{activeGalleryIndex + 1} OF 0{galleryImages.length}</figcaption>
+                <figcaption>MEMORY 0{activeGalleryIndex + 1} OF 0{galleryImages.length}</figcaption>
               </figure>
               <button type="button" className="gallery-nav gallery-next" aria-label="Next photo" onClick={() => setActiveGalleryIndex((index) => (index + 1) % galleryImages.length)}><ChevronRight size={26} /></button>
             </div>
           )}
         </section>
-
-        <section className="venue-section" id="venue">
-          <div className="venue-card">
-            <span className="eyebrow">WE'LL SAVE YOU A SEAT</span>
-            <div className="venue-symbol"><MapPin size={24} strokeWidth={1} /></div>
-            <SectionTitle eyebrow="A PLACE TO GATHER" title={wedding.venue} note={wedding.address} />
-            <p className="venue-copy">Come share the warmth, the joy and the beginning of our next chapter in a place as special as the occasion.</p>
-            <div className="venue-map">
-              <iframe
-                title={`Map showing ${wedding.venue} in ${wedding.address}`}
-                src="https://maps.google.com/maps?q=Udaipur%20Rajasthan%20India&output=embed"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-            </div>
-            <a className="gold-button" href="https://maps.google.com/?q=Udaipur+Rajasthan+India" target="_blank" rel="noreferrer">EXPLORE THE LOCATION <ArrowUpRight size={15} /></a>
-          </div>
-        </section>
-
-        <section className="rsvp-section section-pad" id="rsvp">
-          <div className="rsvp-intro"><span className="script">Your presence is our present</span><SectionTitle eyebrow="KINDLY REPLY" title="Will You Join Us?" note="Please let us know if we can save you a seat. We can't wait to celebrate together." /></div>
-          {rsvpSent ? <div className="rsvp-success"><Sparkles size={28} /><h3>Thank you, {rsvp.name || "dear friend"}.</h3><p>Your response has been noted in this preview. Once connected to a backend, it can be delivered to the hosts.</p><button className="text-link" onClick={() => setRsvpSent(false)}>EDIT RESPONSE</button></div> :
-            <form className="rsvp-form" onSubmit={submitRsvp}>
-              <label>Your name<input required value={rsvp.name} onChange={(e) => setRsvp({ ...rsvp, name: e.target.value })} placeholder="Full name" /></label>
-              <div className="form-row">
-                <label>Will you attend?<select value={rsvp.attendance} onChange={(e) => setRsvp({ ...rsvp, attendance: e.target.value })}><option value="yes">Joyfully accepts</option><option value="no">Regretfully declines</option></select></label>
-                <label>Guests<select value={rsvp.guests} onChange={(e) => setRsvp({ ...rsvp, guests: e.target.value })}><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
-              </div>
-              <label>A little note (optional)<textarea rows="3" value={rsvp.message} onChange={(e) => setRsvp({ ...rsvp, message: e.target.value })} placeholder="Send the couple your wishes..." /></label>
-              <button className="gold-button submit-button" type="submit">SEND YOUR RESPONSE <ArrowUpRight size={15} /></button>
-              <p className="form-note">DEMO PREVIEW · RESPONSES ARE NOT SAVED TO A SERVER YET</p>
-            </form>}
-        </section>
-
-        <footer className="site-footer">
-          <OrnamentalRule />
-          <p className="script">A lifetime of love starts here</p>
-          <h2>{wedding.bride} <span>&</span> {wedding.groom}</h2>
-          <p className="footer-date">{wedding.dateLabel}</p>
-          <div className="footer-seal">ZM</div>
-          <small>MADE WITH LOVE · DECEMBER 2026</small>
-        </footer>
-
-        <button className={`music-button ${musicPlaying ? "music-playing" : ""}`} onClick={() => setMusicPlaying(!musicPlaying)} aria-label={musicPlaying ? "Pause music preview" : "Play music preview"}>
-          {musicPlaying ? <Pause size={15} /> : <Play size={15} />}<span>{musicPlaying ? "Music on" : "Music"}</span><span className="music-bars"><i /><i /><i /><i /></span>
-        </button>
       </div>
     </main>
   );
