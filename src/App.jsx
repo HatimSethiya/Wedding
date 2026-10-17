@@ -335,6 +335,15 @@ function App() {
             <div className="venue-symbol"><MapPin size={24} strokeWidth={1} /></div>
             <SectionTitle eyebrow="A PLACE TO GATHER" title={wedding.venue} note={wedding.address} />
             <p className="venue-copy">Come share the warmth, the joy and the beginning of our next chapter in a place as special as the occasion.</p>
+            <div className="venue-map">
+              <iframe
+                title={`Map showing ${wedding.venue} in ${wedding.address}`}
+                src="https://maps.google.com/maps?q=Udaipur%20Rajasthan%20India&output=embed"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
             <a className="gold-button" href="https://maps.google.com/?q=Udaipur+Rajasthan+India" target="_blank" rel="noreferrer">EXPLORE THE LOCATION <ArrowUpRight size={15} /></a>
           </div>
         </section>
