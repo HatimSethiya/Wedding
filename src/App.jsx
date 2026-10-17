@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Clock3, MapPin, Music2,
-  Pause, Play, Heart, Flower2, Menu, X, Sparkles, ChevronDown
+  Pause, Play, Heart, Flower2, Menu, X, Sparkles, ChevronDown,
+  ChevronLeft, ChevronRight
 } from "lucide-react";
 
 const wedding = {
@@ -219,6 +220,7 @@ function App() {
   const [opened, setOpened] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [activeGalleryIndex, setActiveGalleryIndex] = useState(null);
   const [rsvp, setRsvp] = useState({ name: "", guests: "2", attendance: "yes", message: "" });
   const [rsvpSent, setRsvpSent] = useState(false);
   const countdown = useCountdown(wedding.date);
@@ -227,6 +229,21 @@ function App() {
     document.body.classList.toggle("invitation-open", opened);
     return () => document.body.classList.remove("invitation-open");
   }, [opened]);
+
+  useEffect(() => {
+    if (activeGalleryIndex === null) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setActiveGalleryIndex(null);
+      if (event.key === "ArrowRight") {
+        setActiveGalleryIndex((index) => (index + 1) % galleryImages.length);
+      }
+      if (event.key === "ArrowLeft") {
+        setActiveGalleryIndex((index) => (index - 1 + galleryImages.length) % galleryImages.length);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeGalleryIndex]);
 
   const navItems = [
     ["Our Story", "#story"], ["The Celebration", "#events"], ["Gallery", "#gallery"], ["Venue", "#venue"]
@@ -324,9 +341,30 @@ function App() {
         <section className="gallery-section section-pad" id="gallery">
           <SectionTitle eyebrow="LITTLE MOMENTS, FOREVER MEMORIES" title="Captured with Love" note="A glimpse into the beauty of the moments that brought us here." />
           <div className="gallery-grid">{galleryImages.map((image, index) => <motion.figure key={image} className={`gallery-item gallery-item-${index % 6}`}
+            role="button" tabIndex={0} aria-label={`Open wedding photo ${index + 1}`}
+            onClick={() => setActiveGalleryIndex(index)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                setActiveGalleryIndex(index);
+              }
+            }}
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .15 }} transition={{ duration: .65, delay: (index % 3) * .08 }}>
-            <img src={image} alt={`Wedding memory ${index + 1}`} loading="lazy" /><figcaption><span>MEMORY NO. 0{index + 1}</span><Heart size={13} /></figcaption>
+            <img src={image} alt={`Wedding memory ${index + 1}`} loading="lazy" /><figcaption><span>MEMORY NO. 0{index + 1} · VIEW</span><Heart size={13} /></figcaption>
           </motion.figure>)}</div>
+          {activeGalleryIndex !== null && (
+            <div className="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Wedding photo slideshow" onClick={(event) => {
+              if (event.target === event.currentTarget) setActiveGalleryIndex(null);
+            }}>
+              <button type="button" className="gallery-close" aria-label="Close slideshow" onClick={() => setActiveGalleryIndex(null)}><X size={22} /></button>
+              <button type="button" className="gallery-nav gallery-prev" aria-label="Previous photo" onClick={() => setActiveGalleryIndex((index) => (index - 1 + galleryImages.length) % galleryImages.length)}><ChevronLeft size={26} /></button>
+              <figure className="gallery-lightbox-photo">
+                <img src={galleryImages[activeGalleryIndex]} alt={`Wedding memory ${activeGalleryIndex + 1}`} />
+                <figcaption>MEMORY NO. 0{activeGalleryIndex + 1} OF 0{galleryImages.length}</figcaption>
+              </figure>
+              <button type="button" className="gallery-nav gallery-next" aria-label="Next photo" onClick={() => setActiveGalleryIndex((index) => (index + 1) % galleryImages.length)}><ChevronRight size={26} /></button>
+            </div>
+          )}
         </section>
 
         <section className="venue-section" id="venue">
