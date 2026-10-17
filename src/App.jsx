@@ -195,7 +195,7 @@ function GateReveal({ onOpen }) {
     if (opening) return;
     setOpening(true);
     window.setTimeout(() => setCurtainsOpen(true), 720);
-    window.setTimeout(onOpen, 2050);
+    window.setTimeout(onOpen, 2800);
   };
 
   return (
@@ -246,6 +246,7 @@ function App() {
   const [opened, setOpened] = useState(false);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(null);
+  const [heroPhotoIndex, setHeroPhotoIndex] = useState(0);
   const [rsvp, setRsvp] = useState({ name: "", guests: "2", attendance: "yes", message: "" });
   const [rsvpSent, setRsvpSent] = useState(false);
   const countdown = useCountdown(wedding.date);
@@ -253,6 +254,29 @@ function App() {
   useEffect(() => {
     document.body.classList.toggle("invitation-open", opened);
     return () => document.body.classList.remove("invitation-open");
+  }, [opened]);
+
+  useEffect(() => {
+    if (!opened) return undefined;
+    const intervalId = window.setInterval(() => {
+      setHeroPhotoIndex((index) => (index + 1) % galleryImages.length);
+    }, 4600);
+    return () => window.clearInterval(intervalId);
+  }, [opened]);
+
+  useEffect(() => {
+    if (!opened || typeof IntersectionObserver === "undefined") return undefined;
+    const nodes = document.querySelectorAll(".floral-section, .save-date-section, .royal-cover .hero-frame");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: "0px 0px -4% 0px" });
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
   }, [opened]);
 
   useEffect(() => {
@@ -327,8 +351,41 @@ function App() {
 
         <section className="save-date-section floral-section" id="countdown">
           <span className="save-date-ribbon"><Heart size={12} fill="currentColor" /> SAVE THE DATE</span>
-          <div className="save-date-photo">
-            <img src={galleryImages[1]} alt="A couple walking together on their wedding day" loading="lazy" />
+          <div className="save-date-photo" aria-label="Wedding photo slideshow">
+            <motion.img
+              key={galleryImages[heroPhotoIndex]}
+              src={galleryImages[heroPhotoIndex]}
+              alt={`Wedding slideshow photo ${heroPhotoIndex + 1}`}
+              loading="lazy"
+              initial={{ opacity: 0, scale: 1.025 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: .75, ease: "easeOut" }}
+            />
+            <span className="photo-slide-caption">MOMENTS OF LOVE · 0{heroPhotoIndex + 1}</span>
+            <button
+              type="button"
+              className="photo-slide-arrow photo-slide-prev"
+              aria-label="Previous wedding photo"
+              onClick={() => setHeroPhotoIndex((index) => (index - 1 + galleryImages.length) % galleryImages.length)}
+            ><ChevronLeft size={18} /></button>
+            <button
+              type="button"
+              className="photo-slide-arrow photo-slide-next"
+              aria-label="Next wedding photo"
+              onClick={() => setHeroPhotoIndex((index) => (index + 1) % galleryImages.length)}
+            ><ChevronRight size={18} /></button>
+            <div className="photo-slide-dots" aria-label="Choose slideshow photo">
+              {galleryImages.map((image, index) => (
+                <button
+                  type="button"
+                  key={image}
+                  aria-label={`Show photo ${index + 1}`}
+                  aria-current={heroPhotoIndex === index ? "true" : undefined}
+                  className={heroPhotoIndex === index ? "is-active" : ""}
+                  onClick={() => setHeroPhotoIndex(index)}
+                />
+              ))}
+            </div>
           </div>
           <p className="script countdown-heading">Counting Down to Forever</p>
           <div className="countdown-grid">
