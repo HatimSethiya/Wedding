@@ -2438,3 +2438,28 @@ body, button, input, select, textarea {
 @media (prefers-reduced-motion: reduce) {
   .gate-video-name-overlay { animation: none; }
 }
+
+
+/* Solid sage loading state: never flash the legacy CSS envelope while the MP4 initializes. */
+.gate-screen:not(.has-video-frame):not(.video-failed) {
+  background: #7f886e;
+}
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-opening-video {
+  opacity: 1;
+  pointer-events: none;
+}
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-glow,
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-backdrop,
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-doors,
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-hanging-line,
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-plaque,
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-watermark,
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-bottom-note,
+.gate-screen:not(.has-video-frame):not(.video-failed)::before,
+.gate-screen:not(.has-video-frame):not(.video-failed)::after {
+  opacity: 0;
+  pointer-events: none;
+}
+.gate-screen:not(.has-video-frame):not(.video-failed) .gate-plaque {
+  visibility: hidden;
+}
