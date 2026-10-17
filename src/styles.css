@@ -824,3 +824,1264 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .gallery-lightbox { animation: none; }
 }
+
+
+/* Royal Grace reference layout — mobile-first full invitation */
+/* Reset the first draft's generic landing-page layout into a narrow, editorial invitation. */
+:root {
+  --ink: #47533f;
+  --green: #687a5a;
+  --deep: #43563f;
+  --sage: #aab096;
+  --paper: #f5eedf;
+  --paper-deep: #ece2d0;
+  --gold: #c29a4d;
+  --gold-light: #e7d8af;
+  --muted: #86816f;
+  --line: rgba(171, 147, 101, .42);
+  --rose: #b58d83;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 12px;
+  background: #eee9df;
+}
+body {
+  margin: 0;
+  background: #eee9df;
+  color: var(--ink);
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+body, button, input, select, textarea {
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+.site-shell {
+  width: 100%;
+  min-height: 100svh;
+  overflow: clip;
+  background: var(--paper);
+}
+.invitation-site {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  opacity: 0;
+  visibility: hidden;
+  background: var(--paper);
+  transition: opacity .7s ease, visibility .7s ease;
+  box-shadow: 0 0 45px rgba(60, 59, 42, .08);
+}
+.invitation-site.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+.script {
+  font-family: "Allura", "Cormorant Garamond", cursive;
+  font-weight: 400;
+  color: #879178;
+}
+.eyebrow {
+  color: #9d8b65;
+  font: 8px/1.8 "Marcellus", Georgia, serif;
+  letter-spacing: .21em;
+  text-transform: uppercase;
+}
+.section-title {
+  max-width: 100%;
+  margin: 0 auto 25px;
+  text-align: center;
+}
+.section-title h2 {
+  margin: 9px 0;
+  color: #6e7c61;
+  font: 400 clamp(26px, 7vw, 39px)/1.15 "Cormorant Garamond", Georgia, serif;
+  letter-spacing: .01em;
+}
+.section-title > p {
+  max-width: 38ch;
+  margin: 8px auto 0;
+  color: #827d6d;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.ornamental-rule {
+  gap: 9px;
+  margin: 12px auto;
+  color: #b99a64;
+}
+.ornamental-rule span {
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(185,154,100,.7), transparent);
+}
+.section-pad {
+  padding: 52px 34px;
+}
+/* Opening card: embossed sage envelope with central seal and a true two-panel reveal. */
+.gate-screen {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  color: #f4ead0;
+  background:
+    radial-gradient(ellipse at 47% 45%, rgba(183,190,151,.34), transparent 47%),
+    repeating-linear-gradient(115deg, rgba(248,241,212,.025) 0 1px, transparent 1px 7px),
+    linear-gradient(138deg, #9ba287 0%, #828b70 43%, #747e65 100%);
+  perspective: 1400px;
+  isolation: isolate;
+}
+.gate-screen::before {
+  content: "";
+  position: absolute;
+  z-index: 8;
+  inset: 0;
+  border: 1px solid rgba(246,238,210,.18);
+  box-shadow: inset 0 0 32px rgba(31,40,28,.13);
+  pointer-events: none;
+}
+.gate-screen::after {
+  content: "";
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  opacity: .7;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 2% 15%, rgba(236,228,190,.12), transparent 12%),
+    radial-gradient(ellipse at 98% 22%, rgba(236,228,190,.12), transparent 13%),
+    radial-gradient(ellipse at 7% 77%, rgba(236,228,190,.1), transparent 12%),
+    radial-gradient(ellipse at 92% 83%, rgba(236,228,190,.1), transparent 13%);
+}
+.gate-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(38,49,34,.025) 3px 4px),
+    radial-gradient(ellipse at center, transparent 20%, rgba(31,42,28,.16) 100%);
+}
+.gate-backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #748168;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(255,255,249,.8), transparent 57%),
+    repeating-linear-gradient(90deg, rgba(127,111,82,.045) 0 1px, transparent 1px 5px),
+    linear-gradient(100deg, #e7dcc6, #fbf4e5 50%, #e4d7bf);
+}
+.gate-backdrop-curtain {
+  position: absolute;
+  z-index: 3;
+  top: -3%;
+  bottom: -3%;
+  width: 64%;
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(127,101,68,.08) 0 3px,
+      rgba(255,251,236,.5) 4px 10px,
+      rgba(205,184,148,.28) 11px 14px,
+      rgba(255,250,237,.65) 15px 23px),
+    linear-gradient(90deg,#e3d1b5,#fff6e2 28%,#d8c3a2 46%,#fff4df 63%,#e0cfb5);
+  box-shadow: inset 0 0 20px rgba(105,82,52,.14), 0 5px 15px rgba(95,75,48,.08);
+  transition: transform 1.3s cubic-bezier(.72,0,.18,1);
+}
+.gate-backdrop-curtain-left {
+  left: -7%;
+  border-radius: 0 0 45% 0 / 0 0 8% 0;
+  transform-origin: left center;
+}
+.gate-backdrop-curtain-right {
+  right: -7%;
+  border-radius: 0 0 0 45% / 0 0 0 8%;
+  transform-origin: right center;
+}
+.gate-backdrop-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 0 30px;
+  color: #7d866d;
+  text-align: center;
+  opacity: .0;
+  transform: translateY(12px);
+  transition: opacity .6s ease .95s, transform .7s ease .95s;
+}
+.gate-backdrop-copy .eyebrow {
+  color: #888a6f;
+  font-size: 9px;
+  letter-spacing: .18em;
+}
+.gate-backdrop-copy .script {
+  font-size: clamp(42px, 12vw, 58px);
+  line-height: .9;
+}
+.gate-backdrop-copy .script i {
+  color: #b89c67;
+  font-style: normal;
+}
+.gate-backdrop-date {
+  color: #8f866c;
+  font: 9px "Marcellus", Georgia, serif;
+  letter-spacing: .23em;
+}
+.gate-backdrop-flowers {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 2%;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  color: #8d9a7b;
+  font-size: clamp(35px, 10vw, 55px);
+  opacity: .62;
+  pointer-events: none;
+}
+.gate-backdrop-flowers span:nth-child(even) {
+  margin-bottom: 35px;
+  color: #b99a86;
+  font-size: .72em;
+}
+.gate-doors {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  transform: none;
+  perspective: 1800px;
+  filter: none;
+}
+.gate-door {
+  position: relative;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  border: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(231,229,192,.18), transparent 58%),
+    repeating-linear-gradient(135deg, rgba(40,51,34,.025) 0 1px, transparent 1px 8px),
+    linear-gradient(130deg, #a2a68a 0%, #889175 48%, #9aa087 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(238,229,195,.14),
+    inset 0 0 35px rgba(38,47,31,.15);
+  transition: transform 1.35s cubic-bezier(.76,0,.18,1), opacity 1.1s ease;
+  backface-visibility: hidden;
+}
+.gate-door::before {
+  content: "❧";
+  position: absolute;
+  top: 14%;
+  color: rgba(241,234,202,.47);
+  font-size: clamp(70px, 21vw, 112px);
+  text-shadow: 1px 1px rgba(44,57,39,.12);
+}
+.gate-door::after {
+  content: "❧";
+  position: absolute;
+  bottom: 13%;
+  color: rgba(241,234,202,.56);
+  font-size: clamp(77px, 21vw, 115px);
+  text-shadow: 1px 1px rgba(44,57,39,.12);
+}
+.gate-door-left {
+  transform-origin: left center;
+  border-radius: 0;
+  border-right: 2px solid rgba(48,46,31,.8);
+  box-shadow: inset -6px 0 9px rgba(30,34,24,.26), inset 0 0 30px rgba(38,47,31,.18);
+}
+.gate-door-left::before { left: -23px; transform: rotate(-28deg); }
+.gate-door-left::after { left: -22px; transform: rotate(27deg) scaleX(-1); }
+.gate-door-right {
+  transform-origin: right center;
+  border-radius: 0;
+  border-left: 2px solid rgba(48,46,31,.8);
+  box-shadow: inset 6px 0 9px rgba(30,34,24,.26), inset 0 0 30px rgba(38,47,31,.18);
+}
+.gate-door-right::before { right: -23px; transform: rotate(28deg) scaleX(-1); }
+.gate-door-right::after { right: -22px; transform: rotate(-27deg); }
+.gate-door-leaves {
+  position: absolute;
+  z-index: 1;
+  color: rgba(241,234,202,.55);
+  font-size: 70px;
+  pointer-events: none;
+}
+.gate-door-leaves-top { top: 25%; }
+.gate-door-leaves-bottom { bottom: 25%; font-size: 86px; }
+.gate-door-left .gate-door-leaves { right: -13px; transform: rotate(27deg); }
+.gate-door-right .gate-door-leaves { left: -13px; transform: scaleX(-1) rotate(27deg); }
+.gate-door-mark {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  color: rgba(241,234,202,.5);
+  font: 7px "Marcellus", Georgia, serif;
+  letter-spacing: .2em;
+  text-shadow: 0 1px rgba(48,54,38,.22);
+  transform: translate(-50%,-50%);
+}
+.gate-hanging-line {
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: calc(50% - 62px);
+  background: linear-gradient(90deg, #8b774c, #e9d9ac 42%, #9e8957);
+  box-shadow: 1px 0 2px rgba(31,30,21,.35);
+  transform: translateX(-50%);
+  transform-origin: top;
+  transition: transform .7s ease;
+}
+.gate-plaque {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 152px;
+  height: 188px;
+  padding: 22px 17px;
+  border: 2px solid #ad9361;
+  border-radius: 48% 48% 45% 45% / 19% 19% 18% 18%;
+  color: #8e7747;
+  background:
+    radial-gradient(ellipse at center, #fff9e9 0%, #f3e7cc 72%, #d6c099 100%);
+  box-shadow:
+    0 10px 22px rgba(37,37,25,.36),
+    inset 0 0 0 4px rgba(255,255,244,.85),
+    inset 0 0 0 6px rgba(180,149,91,.65),
+    inset 0 0 20px rgba(166,133,75,.14);
+  cursor: pointer;
+  transform: translate(-50%,-50%);
+  transition: opacity .45s ease, transform .8s cubic-bezier(.18,.78,.25,1);
+  animation: plaqueSway 3.8s ease-in-out infinite;
+}
+.gate-plaque::before,
+.gate-plaque::after {
+  content: "✦";
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border: 1px solid rgba(176,148,93,.8);
+  border-radius: 50%;
+  color: #b0996a;
+  background: #f7edda;
+  font-size: 10px;
+}
+.gate-plaque-text {
+  font: 11px "Marcellus", Georgia, serif;
+  letter-spacing: .07em;
+}
+.gate-plaque-leaf {
+  color: #9b895e;
+  font-size: 22px;
+  line-height: 1;
+}
+.gate-watermark {
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  bottom: 17%;
+  color: rgba(245,238,211,.62);
+  font-size: 43px;
+  transform: translateX(-50%) rotate(180deg);
+}
+.gate-bottom-note {
+  position: absolute;
+  z-index: 9;
+  right: 10px;
+  bottom: 7px;
+  left: 10px;
+  color: rgba(247,239,210,.66);
+  text-align: center;
+  font: 7px "Marcellus", Georgia, serif;
+  letter-spacing: .15em;
+}
+@keyframes plaqueSway {
+  0%, 100% { transform: translate(-50%,-50%) rotate(-1deg); }
+  50% { transform: translate(-50%,-50%) rotate(1deg); }
+}
+.gate-screen.is-opening .gate-door-left {
+  transform: rotateY(-108deg);
+  opacity: .28;
+}
+.gate-screen.is-opening .gate-door-right {
+  transform: rotateY(108deg);
+  opacity: .28;
+}
+.gate-screen.is-opening .gate-plaque {
+  opacity: 0;
+  transform: translate(-50%,-42%) scale(.72);
+  animation: none;
+}
+.gate-screen.is-opening .gate-hanging-line {
+  transform: translateX(-50%) scaleY(.12);
+  opacity: 0;
+}
+.gate-screen.curtains-open .gate-backdrop-curtain-left {
+  transform: translateX(-110%) skewX(4deg);
+}
+.gate-screen.curtains-open .gate-backdrop-curtain-right {
+  transform: translateX(110%) skewX(-4deg);
+}
+.gate-screen.curtains-open .gate-backdrop-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+.gate-screen.is-opening .gate-bottom-note,
+.gate-screen.is-opening .gate-watermark {
+  opacity: 0;
+  transition: opacity .3s;
+}
+/* Main invitation cover: silk curtains, linen paper and a flower-lined courtyard. */
+.royal-cover {
+  position: relative;
+  min-height: 790px;
+  min-height: 100svh;
+  padding: 0 24px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    repeating-linear-gradient(0deg, rgba(132,111,76,.035) 0 1px, transparent 1px 5px),
+    linear-gradient(180deg, #f8f1e2, #f4ecdb 78%, #e6dcc7);
+}
+.royal-cover::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8px;
+  border: 1px solid rgba(185,156,109,.32);
+  pointer-events: none;
+}
+.royal-cover-frame {
+  position: relative;
+  z-index: 2;
+  max-width: none;
+  margin: 0 auto;
+  padding: 195px 18px 218px;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
+  text-align: center;
+}
+.cover-curtain {
+  position: absolute;
+  z-index: 1;
+  top: -18px;
+  width: 62%;
+  height: 270px;
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(155,124,84,.10) 0 3px,
+      rgba(255,249,232,.84) 5px 12px,
+      rgba(199,176,142,.30) 13px 18px,
+      rgba(255,250,235,.74) 19px 28px),
+    linear-gradient(90deg,#decaa9,#fff5dc 25%,#d9c39e 42%,#fff5df 70%,#e6d3b4);
+  box-shadow: inset 0 -15px 18px rgba(128,94,55,.05), 0 7px 18px rgba(123,97,63,.08);
+  pointer-events: none;
+}
+.cover-curtain-left {
+  left: -13%;
+  border-radius: 0 0 48% 0 / 0 0 10% 0;
+  clip-path: polygon(0 0,100% 0,100% 65%,87% 62%,75% 54%,64% 42%,48% 34%,30% 31%,0 32%);
+}
+.cover-curtain-right {
+  right: -13%;
+  border-radius: 0 0 0 48% / 0 0 0 10%;
+  clip-path: polygon(0 0,100% 0,100% 32%,70% 31%,52% 34%,36% 42%,25% 54%,13% 62%,0 65%);
+}
+.royal-cover .cover-heart {
+  display: block;
+  margin: 0 auto 20px;
+  color: #53684a;
+  font-size: 24px;
+  line-height: 1;
+  animation: heartFloat 3s ease-in-out infinite;
+}
+.cover-script {
+  margin: 0;
+  color: #829174;
+  font-size: 28px;
+  line-height: 1;
+}
+.cover-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px auto 9px;
+  color: #889274;
+  font-size: 11px;
+}
+.cover-divider span {
+  width: 37px;
+  height: 1px;
+  background: rgba(171,147,101,.62);
+}
+.royal-cover h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 8px 0 2px;
+  color: #839276;
+  font: 400 clamp(48px, 14vw, 66px)/.82 "Allura", cursive;
+  letter-spacing: 0;
+}
+.royal-cover h1 span {
+  white-space: nowrap;
+}
+.royal-cover h1 em {
+  margin: 5px 0;
+  color: #b19a70;
+  font: 24px "Allura", cursive;
+}
+.cover-family {
+  margin: 8px auto 0;
+  color: #9e9e82;
+  font: italic 11px/1.4 "Cormorant Garamond", Georgia, serif;
+}
+.cover-family span {
+  font-size: 10px;
+}
+.cover-ampersand {
+  display: block;
+  margin: 10px auto 0;
+  color: #bda878;
+  font: 27px "Allura", cursive;
+}
+.cover-bottom-flourish {
+  margin-top: 13px;
+  color: #ac9870;
+  font-size: 13px;
+  letter-spacing: .08em;
+}
+.cover-garden {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 230px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255,255,247,.95), transparent 56%),
+    linear-gradient(180deg, transparent, rgba(196,177,146,.22));
+  pointer-events: none;
+}
+.cover-garden::before,
+.cover-garden::after {
+  content: "❀  ✿  ❀";
+  position: absolute;
+  bottom: 0;
+  color: #c9aa9b;
+  font-size: clamp(28px, 8vw, 46px);
+  text-shadow: 14px -12px 0 #869377, -11px -21px 0 #b18e7c, 20px -44px 0 #8c997b;
+}
+.cover-garden::before { left: -18px; transform: rotate(-17deg); }
+.cover-garden::after { right: -18px; transform: scaleX(-1) rotate(-17deg); }
+.garden-vase {
+  position: absolute;
+  z-index: 2;
+  bottom: 54px;
+  display: grid;
+  place-items: center;
+  width: 63px;
+  height: 70px;
+  color: #b49a79;
+  background: linear-gradient(90deg,#dfd1b8,#fff5de 45%,#cbbb9d);
+  border: 1px solid rgba(166,139,94,.45);
+  border-radius: 12px 12px 20px 20px;
+  box-shadow: inset 0 0 0 4px rgba(255,255,255,.28), 0 8px 15px rgba(79,63,40,.12);
+  font-size: 35px;
+}
+.garden-vase-left { left: 13px; }
+.garden-vase-right { right: 13px; }
+.garden-fountain {
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 132px;
+  height: 58px;
+  border: 3px solid #c4b08d;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 30%, #b2c0b0, #87977f 72%);
+  box-shadow: 0 2px 0 #f8eed8, 0 9px 12px rgba(83,72,49,.14);
+  transform: translateX(-50%);
+}
+.garden-fountain::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  width: 22px;
+  height: 35px;
+  border: 2px solid #c6b18d;
+  border-radius: 45% 45% 0 0;
+  background: linear-gradient(90deg,#c6b18d,#f5e6c9,#b9a17a);
+  transform: translateX(-50%);
+}
+.garden-fountain span {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  color: #b89d69;
+  transform: translateX(-50%);
+}
+/* Parchment panels with a fine botanical border like the reference's long invitation page. */
+.floral-section {
+  position: relative;
+  isolation: isolate;
+  min-height: 300px;
+  padding: 58px 42px 54px;
+  overflow: hidden;
+  text-align: center;
+  color: #777867;
+  background:
+    repeating-linear-gradient(0deg, rgba(135,116,81,.032) 0 1px, transparent 1px 6px),
+    radial-gradient(ellipse at 50% 8%, rgba(255,253,244,.78), transparent 58%),
+    #f6efdf;
+}
+.floral-section::before,
+.floral-section::after {
+  content: "✿\A ❧\A ✿\A ❦\A ✿\A ❧\A ✿\A ❦\A ✿\A ❧\A ✿";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 29px;
+  color: #a3a98c;
+  white-space: pre;
+  overflow: hidden;
+  text-align: center;
+  font-size: 18px;
+  line-height: 1;
+  text-shadow: 0 1px rgba(255,255,255,.65);
+  opacity: .9;
+  pointer-events: none;
+}
+.floral-section::before {
+  left: 3px;
+  border-right: 1px solid rgba(180,154,111,.24);
+}
+.floral-section::after {
+  right: 3px;
+  border-left: 1px solid rgba(180,154,111,.24);
+  transform: scaleX(-1);
+}
+.section-emblem {
+  display: block;
+  margin: 0 auto 12px;
+  color: #6b7b5d;
+  font-size: 18px;
+}
+.page-script,
+.message-heading,
+.countdown-heading,
+.scratch-heading {
+  margin: 0 0 16px;
+  color: #849177;
+  font-size: clamp(28px, 8vw, 38px);
+  line-height: 1;
+}
+.message-section {
+  min-height: 340px;
+  padding-top: 62px;
+  padding-bottom: 62px;
+}
+.message-section h2 {
+  margin: 8px 0 14px;
+  color: #7c8a6c;
+  font: 400 21px/1.2 "Cormorant Garamond", Georgia, serif;
+}
+.small-leaf-divider {
+  margin: 16px 0;
+  color: #b39b70;
+  font-size: 15px;
+}
+.message-copy {
+  margin: 12px auto;
+  color: #817d6c;
+  font: 16px/1.65 "Cormorant Garamond", Georgia, serif;
+}
+.message-copy strong {
+  display: block;
+  margin-top: 6px;
+  color: #64765a;
+  font-weight: 600;
+}
+.scratch-section {
+  padding-top: 45px;
+  padding-bottom: 48px;
+  background:
+    repeating-linear-gradient(0deg, rgba(135,116,81,.032) 0 1px, transparent 1px 6px),
+    linear-gradient(180deg,#f4ecdc,#f9f3e6);
+}
+.scratch-panel {
+  width: 100%;
+  max-width: 330px;
+  margin: auto;
+  text-align: center;
+}
+.scratch-panel .scratch-heading {
+  margin-bottom: 9px;
+  font-size: 35px;
+}
+.scratch-intro {
+  color: #9a927c;
+  font: italic 13px "Cormorant Garamond", Georgia, serif;
+}
+.scratch-card {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  min-height: 205px;
+  margin: 12px auto 20px;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.scratch-heart {
+  position: relative;
+  width: min(230px, 78vw);
+  height: 190px;
+  margin: 4px auto 10px;
+  overflow: hidden;
+  clip-path: polygon(50% 96%, 43% 89%, 13% 57%, 4% 44%, 0 31%, 3% 18%, 12% 8%, 24% 5%, 36% 10%, 50% 25%, 64% 10%, 76% 5%, 88% 8%, 97% 18%, 100% 31%, 96% 44%, 87% 57%, 57% 89%);
+  background: linear-gradient(135deg,#dde0c4,#aab599 48%,#e0dfc2);
+  filter: drop-shadow(0 9px 7px rgba(105,102,75,.16));
+}
+.scratch-heart::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 8px 10px 12px;
+  border: 1px solid rgba(248,243,221,.76);
+  clip-path: inherit;
+  pointer-events: none;
+}
+.scratch-card-content {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 24px 30px 16px;
+  text-align: center;
+}
+.scratch-card-content > span {
+  color: #f8f1d9;
+  font: italic 17px "Cormorant Garamond", Georgia, serif;
+}
+.scratch-card-content strong {
+  color: #f9f3dc;
+  font: 17px "Cormorant Garamond", Georgia, serif;
+}
+.scratch-card-content small {
+  color: #f3ecd3;
+  font: italic 11px/1.4 "Cormorant Garamond", Georgia, serif;
+}
+.scratch-reveal-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+  clip-path: inherit;
+}
+.scratch-card.is-revealed {
+  animation: dateReveal 650ms ease both;
+}
+.save-date-button,
+.rsvp-send-button,
+.venue-map-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 9px 17px;
+  border: 1px solid #728264;
+  border-radius: 999px;
+  color: #fff9e9;
+  background: #637858;
+  box-shadow: 0 3px 8px rgba(71,82,58,.12);
+  text-decoration: none;
+  text-transform: uppercase;
+  font: 8px "Marcellus", Georgia, serif;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: transform .2s, background .2s;
+}
+.save-date-button:hover,
+.rsvp-send-button:hover,
+.venue-map-button:hover {
+  background: #4b6144;
+  transform: translateY(-1px);
+}
+.save-date-ribbon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 auto 24px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  color: #fff7e5;
+  background: #607653;
+  box-shadow: 0 3px 10px rgba(65,78,51,.17);
+  font: 8px "Marcellus", Georgia, serif;
+  letter-spacing: .12em;
+}
+.save-date-photo {
+  width: 100%;
+  max-width: 380px;
+  height: 160px;
+  margin: 0 auto 25px;
+  padding: 4px;
+  border: 1px solid rgba(178,151,106,.52);
+  background: #fff8e9;
+  box-shadow: 0 6px 14px rgba(71,63,43,.08);
+}
+.save-date-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.countdown-heading {
+  margin: 0 0 21px;
+  font-size: 34px;
+}
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+}
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 11px 4px 9px;
+  border: 1px solid rgba(170,151,108,.45);
+  border-radius: 4px;
+  background: rgba(232,224,201,.38);
+}
+.countdown-unit strong {
+  color: #53684a;
+  font: 24px "Cormorant Garamond", Georgia, serif;
+}
+.countdown-unit span {
+  color: #8d8874;
+  font: 7px "Marcellus", Georgia, serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.program-section {
+  min-height: 420px;
+  padding-top: 58px;
+}
+.timeline-date {
+  margin: 0 auto 24px;
+  color: #a58d60;
+  font: 8px "Marcellus", Georgia, serif;
+  letter-spacing: .13em;
+}
+.program-timeline {
+  display: grid;
+  gap: 0;
+  max-width: 370px;
+  margin: 0 auto;
+  text-align: left;
+}
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 70px 14px minmax(0,1fr);
+  gap: 8px;
+  min-height: 75px;
+  padding-bottom: 15px;
+}
+.timeline-time {
+  padding-top: 2px;
+  color: #7b856d;
+  font: 10px "Marcellus", Georgia, serif;
+  white-space: nowrap;
+}
+.timeline-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  margin-top: 4px;
+  border: 1px solid #b79b67;
+  border-radius: 50%;
+  background: #e8d8b5;
+}
+.timeline-item:not(:last-child) .timeline-dot::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 2px;
+  width: 1px;
+  height: 66px;
+  background: rgba(181,157,111,.52);
+}
+.timeline-item h3 {
+  margin: 0 0 5px;
+  color: #6d7d60;
+  font: 600 16px "Cormorant Garamond", Georgia, serif;
+}
+.timeline-item p {
+  margin: 0;
+  color: #8b8675;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.venue-section {
+  padding: 53px 33px;
+  background: #f4ecdd;
+}
+.venue-card {
+  max-width: 420px;
+  padding: 0;
+  border: 0;
+  outline: 1px solid rgba(178,151,106,.38);
+  outline-offset: 7px;
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+}
+.venue-card .section-title { margin-bottom: 16px; }
+.venue-card .section-title h2 { font-size: 28px; }
+.venue-card .section-title > p { font-size: 15px; }
+.venue-card > .eyebrow { display: none; }
+.venue-symbol,
+.venue-copy { display: none; }
+.venue-card .section-icon { color: #7d896f; }
+.venue-card h2 {
+  margin: 5px auto;
+  color: #748267;
+  font: 400 27px "Cormorant Garamond", Georgia, serif;
+}
+.venue-address {
+  margin: 5px auto 17px;
+  color: #918a75;
+  font-size: 14px;
+}
+.venue-map {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto 15px;
+  padding: 4px;
+  border: 1px solid rgba(180,151,102,.55);
+  background: #fff9e9;
+  box-shadow: 0 6px 15px rgba(77,67,48,.08);
+}
+.venue-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.venue-map-button { margin-top: 2px; text-transform: none; font-size: 10px; letter-spacing: 0; }
+.dress-code-section { min-height: 300px; }
+.dress-code-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
+  margin-top: 25px;
+}
+.dress-code-grid article {
+  padding: 14px 8px;
+  border-top: 1px solid rgba(171,147,101,.42);
+  border-bottom: 1px solid rgba(171,147,101,.42);
+}
+.dress-code-icon {
+  color: #8a9479;
+  font-size: 23px;
+}
+.dress-code-grid h3 {
+  margin: 7px 0;
+  color: #6f7f63;
+  font: 600 16px "Cormorant Garamond", Georgia, serif;
+}
+.dress-code-grid p {
+  margin: 0;
+  color: #8c8674;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.pre-events-section { min-height: 350px; }
+.detail-event {
+  max-width: 300px;
+  margin: 17px auto;
+  padding: 14px 8px;
+  border-top: 1px solid rgba(171,147,101,.35);
+}
+.detail-event > span {
+  color: #a18d63;
+  font: 8px "Marcellus", Georgia, serif;
+  letter-spacing: .09em;
+}
+.detail-event h3 {
+  margin: 7px 0 3px;
+  color: #6b7b5e;
+  font: 600 17px "Cormorant Garamond", Georgia, serif;
+}
+.detail-event p,
+.transport-section > p,
+.accommodation-section > p,
+.gifts-section > p {
+  margin: 8px auto;
+  max-width: 34ch;
+  color: #837e6d;
+  font-size: 15px;
+  line-height: 1.58;
+}
+.detail-note {
+  color: #a18a60 !important;
+  font-style: italic;
+}
+.transport-section,
+.accommodation-section,
+.gifts-section {
+  min-height: 265px;
+}
+.rsvp-section {
+  display: block;
+  min-height: 590px;
+  padding-top: 58px;
+  background:
+    repeating-linear-gradient(0deg, rgba(135,116,81,.032) 0 1px, transparent 1px 6px),
+    #f8f0e1;
+}
+.rsvp-intro-copy {
+  margin: 4px auto 23px;
+  color: #8a8370;
+  text-align: center;
+  font-size: 15px;
+}
+.rsvp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+}
+.rsvp-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #66755b;
+  font-size: 14px;
+}
+.rsvp-form input,
+.rsvp-form select,
+.rsvp-form textarea {
+  width: 100%;
+  min-height: 39px;
+  border: 1px solid rgba(171,147,101,.42);
+  border-radius: 2px;
+  padding: 10px 11px;
+  color: #606d55;
+  background: rgba(255,252,244,.82);
+  font-size: 14px;
+}
+.rsvp-form textarea { min-height: 86px; resize: vertical; }
+.rsvp-form input::placeholder,
+.rsvp-form textarea::placeholder { color: #b1aa98; }
+.rsvp-form select { appearance: auto; }
+.rsvp-send-button {
+  width: 100%;
+  border: 0;
+  border-radius: 3px;
+  font-size: 10px;
+  min-height: 40px;
+}
+.rsvp-form .form-note {
+  margin: -3px 0 0;
+  color: #a39a84;
+  font: 8px/1.5 "Marcellus", Georgia, serif;
+  letter-spacing: .04em;
+}
+.rsvp-success {
+  padding: 24px 15px;
+  border: 1px solid rgba(171,147,101,.42);
+  color: #778469;
+  background: rgba(255,252,244,.6);
+  text-align: center;
+}
+.rsvp-success h3 { color: #66795b; font: 25px "Allura", cursive; }
+.rsvp-success p { color: #8c8573; font-size: 14px; line-height: 1.5; }
+.end-section {
+  min-height: 300px;
+  padding-top: 68px;
+  padding-bottom: 65px;
+}
+.end-section .page-script {
+  font-size: 36px;
+  line-height: 1.05;
+}
+.end-signature {
+  margin: 23px auto 5px;
+  color: #718065;
+  font: 23px "Allura", cursive;
+}
+.footer-date {
+  color: #a09780;
+  font: 9px "Marcellus", Georgia, serif;
+  letter-spacing: .1em;
+}
+.gallery-section {
+  min-height: 400px;
+  padding: 52px 34px;
+}
+.gallery-section .page-script { text-align: center; }
+.section-subtitle {
+  margin: -6px auto 25px;
+  color: #928873;
+  font-size: 14px;
+  text-align: center;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  grid-auto-rows: 125px;
+  gap: 8px;
+  max-width: 420px;
+  margin: auto;
+}
+.gallery-item,
+.gallery-item-0,
+.gallery-item-1,
+.gallery-item-2,
+.gallery-item-3 {
+  position: relative;
+  grid-column: span 1;
+  grid-row: span 1;
+  min-width: 0;
+  margin: 0;
+  padding: 4px;
+  border: 1px solid rgba(171,147,101,.44);
+  background: #fff9e9;
+  cursor: zoom-in;
+}
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-item figcaption {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  left: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 16px 6px 6px;
+  color: #fff8e8;
+  background: linear-gradient(transparent,rgba(36,46,31,.63));
+  font: 7px "Marcellus", Georgia, serif;
+  letter-spacing: .03em;
+}
+.gallery-lightbox {
+  z-index: 1200;
+  background: rgba(24,35,25,.95);
+}
+.gallery-lightbox-photo {
+  border-color: rgba(225,208,157,.65);
+  background: #f6efdf;
+}
+.site-footer { display: none; }
+.music-button {
+  position: fixed;
+  z-index: 1100;
+  top: 12px;
+  right: max(12px, calc((100vw - 560px)/2 + 12px));
+  bottom: auto;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  color: #fff7de;
+  background: #586d4e;
+  box-shadow: 0 2px 8px rgba(34,46,29,.19);
+}
+.music-button span { display: none; }
+.music-button svg { display: block; }
+.music-bars { display: none; }
+.mobile-menu-button,
+.site-nav,
+.topbar { display: none !important; }
+@keyframes heartFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.05); }
+}
+@media (max-width: 430px) {
+  .gate-plaque {
+    width: 148px;
+    height: 182px;
+  }
+  .royal-cover-frame {
+    padding-top: 192px;
+    padding-bottom: 220px;
+  }
+  .cover-curtain { height: 275px; }
+  .floral-section { padding-right: 38px; padding-left: 38px; }
+}
+@media (min-width: 561px) {
+  .invitation-site { max-width: 460px; }
+  .gate-plaque { width: 160px; height: 195px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-plaque,
+  .royal-cover .cover-heart { animation: none; }
+  .gate-door,
+  .gate-backdrop-curtain,
+  .gate-backdrop-copy { transition-duration: .01ms; }
+}
