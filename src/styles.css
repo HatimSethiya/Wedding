@@ -2343,3 +2343,98 @@ body, button, input, select, textarea {
   .gate-opening-video,
   .gate-sound-button { transition: none; }
 }
+
+
+/* Video-first opening: use the actual video frame as the idle screen. */
+.gate-screen.has-video-frame:not(.is-video-playing) .gate-opening-video {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.gate-screen.has-video-frame .gate-glow,
+.gate-screen.has-video-frame .gate-backdrop,
+.gate-screen.has-video-frame .gate-doors,
+.gate-screen.has-video-frame .gate-hanging-line,
+.gate-screen.has-video-frame .gate-plaque,
+.gate-screen.has-video-frame .gate-watermark,
+.gate-screen.has-video-frame .gate-bottom-note {
+  opacity: 0;
+  pointer-events: none;
+}
+.gate-screen.has-video-frame .gate-plaque {
+  visibility: hidden;
+}
+.gate-screen.has-video-frame .gate-opening-video:focus-visible {
+  outline: 2px solid #e8d3a1;
+  outline-offset: -5px;
+}
+
+/* Replace the generated video's baked-in placeholder copy with live invitation names. */
+.gate-video-name-overlay {
+  position: absolute;
+  z-index: 14;
+  top: 31%;
+  left: 50%;
+  display: flex;
+  width: min(64%, 310px);
+  min-height: 30%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 12px 7px;
+  overflow: hidden;
+  border: 1px solid rgba(169, 142, 92, .66);
+  outline: 1px solid rgba(255, 248, 226, .8);
+  outline-offset: -5px;
+  color: #53694b;
+  background:
+    repeating-linear-gradient(0deg, rgba(130, 109, 75, .025) 0 1px, transparent 1px 5px),
+    linear-gradient(135deg, rgba(248, 241, 222, .98), rgba(241, 231, 208, .98) 48%, rgba(248, 242, 226, .98));
+  box-shadow: 0 4px 12px rgba(77, 61, 37, .12);
+  text-align: center;
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: videoNamesReveal .45s ease both;
+}
+.gate-video-name-overlay::before,
+.gate-video-name-overlay::after {
+  content: "✦";
+  position: absolute;
+  left: 50%;
+  color: #b49a67;
+  font: 10px "Marcellus", Georgia, serif;
+  transform: translateX(-50%);
+}
+.gate-video-name-overlay::before { top: 7px; }
+.gate-video-name-overlay::after { bottom: 7px; }
+.gate-video-name {
+  display: block;
+  max-width: 100%;
+  color: #3f6546;
+  font: clamp(31px, 9vw, 52px)/.96 "Allura", "Cormorant Garamond", cursive;
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.gate-video-name-ampersand {
+  display: block;
+  margin: 2px 0;
+  color: #a68b58;
+  font: 23px/.9 "Allura", cursive;
+}
+@keyframes videoNamesReveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (max-width: 430px) {
+  .gate-video-name-overlay {
+    top: 31%;
+    width: 63%;
+    min-height: 30%;
+    padding: 12px 5px;
+  }
+  .gate-video-name { font-size: clamp(31px, 10vw, 43px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-video-name-overlay { animation: none; }
+}
