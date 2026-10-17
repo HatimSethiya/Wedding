@@ -259,7 +259,7 @@ function GateReveal({ onOpen }) {
 
   return (
     <motion.div
-      className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""} ${videoReady && !videoFailed ? "has-video-frame" : ""} ${videoPlaying ? "is-video-playing" : ""}`}
+      className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""} ${videoReady && !videoFailed ? "has-video-frame" : ""} ${videoFailed ? "video-failed" : ""} ${videoPlaying ? "is-video-playing" : ""}`}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: .65 }}
