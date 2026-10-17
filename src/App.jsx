@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Clock3, MapPin, Music2,
@@ -70,6 +70,106 @@ function useCountdown(date) {
   }, [date, now]);
 }
 
+function ScratchReveal({ dateLabel }) {
+  const canvasRef = useRef(null);
+  const scratchState = useRef({ active: false, strokes: 0 });
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || revealed) return undefined;
+
+    const paintCover = () => {
+      const bounds = canvas.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(bounds.width * ratio);
+      canvas.height = Math.round(bounds.height * ratio);
+
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      context.scale(ratio, ratio);
+
+      const cover = context.createLinearGradient(0, 0, bounds.width, bounds.height);
+      cover.addColorStop(0, "#f0e2bd");
+      cover.addColorStop(0.5, "#d9c18b");
+      cover.addColorStop(1, "#f4ead3");
+      context.fillStyle = cover;
+      context.fillRect(0, 0, bounds.width, bounds.height);
+
+      context.strokeStyle = "rgba(116, 81, 35, 0.7)";
+      context.lineWidth = 1;
+      context.strokeRect(9, 9, bounds.width - 18, bounds.height - 18);
+      context.fillStyle = "#36513d";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.font = "10px Marcellus, Georgia, serif";
+      context.fillText("✦  SCRATCH TO REVEAL  ✦", bounds.width / 2, bounds.height / 2 - 5);
+      context.font = "italic 12px Georgia, serif";
+      context.fillStyle = "#66512f";
+      context.fillText("A little surprise awaits", bounds.width / 2, bounds.height / 2 + 14);
+    };
+
+    paintCover();
+    window.addEventListener("resize", paintCover);
+    return () => window.removeEventListener("resize", paintCover);
+  }, [revealed]);
+
+  const scratch = (event) => {
+    const canvas = canvasRef.current;
+    if (!canvas || !scratchState.current.active || revealed) return;
+
+    const bounds = canvas.getBoundingClientRect();
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    context.globalCompositeOperation = "destination-out";
+    context.beginPath();
+    context.arc(event.clientX - bounds.left, event.clientY - bounds.top, 21, 0, Math.PI * 2);
+    context.fill();
+
+    scratchState.current.strokes += 1;
+    if (scratchState.current.strokes >= 24) {
+      scratchState.current.active = false;
+      setRevealed(true);
+    }
+  };
+
+  const beginScratch = (event) => {
+    if (revealed) return;
+    scratchState.current.active = true;
+    scratchState.current.strokes = 0;
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+    scratch(event);
+  };
+
+  const endScratch = () => {
+    scratchState.current.active = false;
+  };
+
+  return (
+    <div className={`scratch-card ${revealed ? "is-revealed" : ""}`}>
+      <div className="scratch-card-content">
+        <span className="eyebrow">A DATE TO REMEMBER</span>
+        <strong>{dateLabel}</strong>
+        <span className="scratch-card-note">With joy in our hearts, we invite you</span>
+      </div>
+      {!revealed && (
+        <canvas
+          ref={canvasRef}
+          className="scratch-reveal-canvas"
+          aria-label="Scratch this card to reveal the wedding date"
+          onPointerDown={beginScratch}
+          onPointerMove={scratch}
+          onPointerUp={endScratch}
+          onPointerCancel={endScratch}
+        />
+      )}
+    </div>
+  );
+}
+
 function GateReveal({ onOpen }) {
   const [opening, setOpening] = useState(false);
   const open = () => {
@@ -86,9 +186,26 @@ function GateReveal({ onOpen }) {
         <div className="gate-monogram">Z<span>&</span>M</div>
         <p className="script">A new chapter begins</p>
       </div>
+      <div className="gate-sparkles" aria-hidden="true">
+        <span>✦</span><span>✧</span><span>✥</span><span>✧</span><span>✦</span>
+      </div>
       <div className="gate-doors" aria-hidden="true">
-        <div className="gate-door gate-door-left"><div className="door-inner"><div className="door-arch"><span>ZM</span></div><div className="door-ornament">❧</div></div></div>
-        <div className="gate-door gate-door-right"><div className="door-inner"><div className="door-arch"><span>✦</span></div><div className="door-ornament">❧</div></div></div>
+        <div className="gate-door gate-door-left">
+          <div className="door-inner">
+            <span className="door-crown">❦</span>
+            <div className="door-arch"><span>ZM</span></div>
+            <div className="door-ornament">❧</div>
+            <span className="door-handle"><i /></span>
+          </div>
+        </div>
+        <div className="gate-door gate-door-right">
+          <div className="door-inner">
+            <span className="door-crown">❦</span>
+            <div className="door-arch"><span>✦</span></div>
+            <div className="door-ornament">❧</div>
+            <span className="door-handle"><i /></span>
+          </div>
+        </div>
       </div>
       <button className="gate-open-button" onClick={open} disabled={opening}>
         <span>{opening ? "Welcome, with love" : "Enter the celebration"}</span><ArrowUpRight size={16} />
@@ -145,9 +262,9 @@ function App() {
               <span>{wedding.bride}</span><em>&</em><span>{wedding.groom}</span>
             </motion.h1>
             <OrnamentalRule className="hero-rule" />
-            <p className="hero-date">{wedding.dateLabel}</p>
+            <ScratchReveal dateLabel={wedding.dateLabel} />
             <div className="hero-image-wrap">
-              <img src={galleryImages[0]} alt="Romantic wedding floral arrangement" fetchPriority="high" />
+              <img src={galleryImages[0]} alt="Romantic wedding floral arrangement" loading="eager" />
               <span className="image-stamp">THE<br />WEDDING<br />CELEBRATION</span>
             </div>
             <p className="hero-venue">{wedding.venue} <span>·</span> {wedding.address}</p>
