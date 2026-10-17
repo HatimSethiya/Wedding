@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowDown, ArrowUpRight, CalendarDays, Clock3, MapPin, Music2,
