@@ -235,6 +235,7 @@ function GateReveal({ onOpen }) {
   const handleVideoError = () => {
     setVideoFailed(true);
     setVideoReady(false);
+    if (opening) runCssFallback();
   };
 
   const handleVideoEnded = () => {
