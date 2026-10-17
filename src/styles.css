@@ -664,3 +664,42 @@ body {
   .scratch-card.is-revealed,
   .scratch-card.is-revealed .scratch-card-content { animation: none; }
 }
+
+
+/* Embedded venue map */
+.venue-map {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto 24px;
+  padding: 7px;
+  border: 1px solid rgba(182, 152, 91, .7);
+  background: #fffdf6;
+  box-shadow: 0 12px 35px rgba(32, 59, 45, .12), inset 0 0 0 3px rgba(182, 152, 91, .08);
+}
+.venue-map::before {
+  content: "✦";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%);
+  padding: 0 9px;
+  color: #a98d53;
+  background: var(--paper);
+  font-size: 13px;
+}
+.venue-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  filter: saturate(.78) contrast(.97);
+}
+@media (max-width: 480px) {
+  .venue-map {
+    aspect-ratio: 4 / 3;
+    padding: 5px;
+  }
+}
