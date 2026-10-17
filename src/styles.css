@@ -249,3 +249,418 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+
+/* Royal Grace-inspired refinement */
+/* The reference is a mobile-first ceremonial invitation: sage/ivory, antique-gold detailing,
+   architectural arches, and an interactive date reveal. Existing layout and behavior remain. */
+:root {
+  --ink: #273e31;
+  --green: #49694e;
+  --deep: #173426;
+  --sage: #a3ad90;
+  --paper: #f8f4e8;
+  --paper-deep: #eee5d1;
+  --gold: #b6985b;
+  --gold-light: #e1d09d;
+  --muted: #6f7769;
+  --line: rgba(182, 152, 91, .58);
+}
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(227, 214, 177, .22), transparent 55%),
+    var(--paper);
+}
+.gate-screen {
+  background:
+    radial-gradient(ellipse at 50% 43%, rgba(102, 132, 92, .54) 0%, transparent 47%),
+    repeating-linear-gradient(45deg, rgba(222, 200, 145, .026) 0 1px, transparent 1px 13px),
+    linear-gradient(135deg, #0d2117 0%, #1d3d2b 43%, #0b1911 100%);
+}
+.gate-screen::before {
+  inset: 11px;
+  border: 1px solid rgba(225, 208, 157, .42);
+  outline: 1px solid rgba(225, 208, 157, .12);
+  outline-offset: 5px;
+}
+.gate-screen::after {
+  content: "✦  ❧  ✦";
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  color: rgba(225, 208, 157, .34);
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: .95em;
+  pointer-events: none;
+}
+.gate-caption {
+  top: 5.5%;
+}
+.gate-caption .eyebrow {
+  letter-spacing: .32em;
+  font-size: 8px;
+}
+.gate-monogram {
+  gap: 16px;
+  margin: 13px auto 3px;
+  color: #fbf0d2;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, .24);
+}
+.gate-caption .script {
+  color: #e6d7af;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, .25);
+}
+.gate-sparkles {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+  color: rgba(232, 212, 157, .65);
+}
+.gate-sparkles span {
+  position: absolute;
+  animation: royalSparkle 3.8s ease-in-out infinite;
+  text-shadow: 0 0 15px rgba(229, 205, 137, .55);
+}
+.gate-sparkles span:nth-child(1) { left: 11%; top: 32%; font-size: 13px; }
+.gate-sparkles span:nth-child(2) { right: 12%; top: 43%; font-size: 10px; animation-delay: -1.3s; }
+.gate-sparkles span:nth-child(3) { left: 17%; bottom: 25%; font-size: 11px; animation-delay: -2.2s; }
+.gate-sparkles span:nth-child(4) { right: 18%; bottom: 29%; font-size: 14px; animation-delay: -.8s; }
+.gate-sparkles span:nth-child(5) { left: 50%; top: 28%; font-size: 9px; animation-delay: -1.8s; }
+@keyframes royalSparkle {
+  0%, 100% { opacity: .28; transform: translateY(0) scale(.8) rotate(0deg); }
+  50% { opacity: .95; transform: translateY(-8px) scale(1.15) rotate(35deg); }
+}
+.gate-doors {
+  top: 23%;
+  bottom: 19%;
+  width: min(78vw, 660px);
+  filter: drop-shadow(0 24px 34px rgba(0, 0, 0, .38));
+}
+.gate-door {
+  background:
+    radial-gradient(ellipse at 50% 24%, rgba(118, 151, 102, .27), transparent 44%),
+    repeating-linear-gradient(45deg, rgba(232, 214, 160, .055) 0 1px, transparent 1px 11px),
+    linear-gradient(135deg, #49674a 0%, #294a34 48%, #173526 100%);
+  border-color: rgba(225, 208, 157, .9);
+  box-shadow:
+    inset 0 0 0 3px rgba(225, 208, 157, .16),
+    inset 0 0 0 8px rgba(0, 0, 0, .1),
+    inset 0 0 42px rgba(0, 0, 0, .22);
+}
+.gate-door::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(225, 208, 157, .38);
+  border-radius: inherit;
+  pointer-events: none;
+}
+.gate-door::after {
+  content: "✥  ❦  ✥";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8%;
+  color: rgba(225, 208, 157, .56);
+  text-align: center;
+  font-size: clamp(12px, 2vw, 20px);
+  letter-spacing: .24em;
+  pointer-events: none;
+}
+.door-inner {
+  inset: 12px;
+  border-color: rgba(225, 208, 157, .54);
+}
+.door-crown {
+  margin: 4px 0 6px;
+  color: #e2cf97;
+  font-size: clamp(18px, 3vw, 29px);
+  line-height: 1;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .25);
+}
+.door-arch {
+  position: relative;
+  width: 76%;
+  height: 64%;
+  border: 1px solid rgba(225, 208, 157, .82);
+  border-radius: 200px 200px 2px 2px;
+  box-shadow:
+    inset 0 0 0 5px rgba(225, 208, 157, .075),
+    inset 0 0 0 10px rgba(0, 0, 0, .07),
+    0 0 0 3px rgba(225, 208, 157, .12);
+  background: linear-gradient(180deg, rgba(11, 29, 18, .08), rgba(11, 29, 18, .18));
+}
+.door-arch::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(225, 208, 157, .34);
+  border-radius: inherit;
+}
+.door-arch span {
+  color: #e7d29a;
+  font-size: clamp(19px, 3vw, 30px);
+  text-shadow: 0 2px 13px rgba(0, 0, 0, .3);
+}
+.door-ornament {
+  color: rgba(225, 208, 157, .88);
+  margin-top: -3px;
+  font-size: clamp(37px, 5.5vw, 66px);
+  line-height: .85;
+}
+.door-handle {
+  position: absolute;
+  right: 8%;
+  top: 54%;
+  display: grid;
+  place-items: center;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #f0dca5;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff0b5, #b08c48 70%);
+  box-shadow: 0 0 0 4px rgba(225, 208, 157, .13), 0 1px 9px rgba(0, 0, 0, .35);
+}
+.gate-door-right .door-handle {
+  right: auto;
+  left: 8%;
+}
+.gate-open-button {
+  bottom: 10.5%;
+  min-height: 47px;
+  border-color: rgba(225, 208, 157, .9);
+  background: linear-gradient(135deg, rgba(31, 61, 42, .95), rgba(11, 29, 18, .92));
+  box-shadow: 0 7px 24px rgba(0, 0, 0, .2), inset 0 0 0 2px rgba(225, 208, 157, .07);
+}
+.gate-open-button:hover {
+  color: #fff7e5;
+  background: linear-gradient(135deg, #8c7444, #4d613f);
+}
+.gate-bottom-note {
+  letter-spacing: .23em;
+}
+.hero {
+  background:
+    radial-gradient(ellipse at 0% 12%, rgba(182, 152, 91, .07), transparent 31%),
+    radial-gradient(ellipse at 100% 80%, rgba(73, 105, 78, .07), transparent 34%);
+}
+.hero-frame {
+  border-color: rgba(182, 152, 91, .72);
+  outline: 1px solid rgba(182, 152, 91, .2);
+  outline-offset: 6px;
+  background:
+    radial-gradient(ellipse at 50% 8%, rgba(255,255,255,.82), transparent 57%),
+    repeating-linear-gradient(45deg, rgba(182, 152, 91, .022) 0 1px, transparent 1px 12px),
+    rgba(248, 244, 232, .92);
+  box-shadow: 0 18px 65px rgba(42, 49, 34, .055);
+}
+.hero-frame::before,
+.hero-frame::after {
+  color: #a68a50;
+  font-size: 52px;
+  text-shadow: 0 1px 0 #f4e9c9;
+}
+.hero h1 {
+  color: #203a2b;
+  text-shadow: 0 2px 0 rgba(255, 255, 255, .42);
+}
+.hero-date {
+  display: none;
+}
+.scratch-card {
+  position: relative;
+  isolation: isolate;
+  width: min(340px, 88%);
+  min-height: 108px;
+  margin: 20px auto 0;
+  overflow: hidden;
+  border: 1px solid rgba(182, 152, 91, .88);
+  background: linear-gradient(135deg, #fff9e9, #e8dec3);
+  box-shadow: 0 9px 27px rgba(48, 50, 35, .1), inset 0 0 0 5px rgba(182, 152, 91, .1);
+}
+.scratch-card::before {
+  content: "✦";
+  position: absolute;
+  top: 8px;
+  left: 11px;
+  color: #a98d53;
+  font-size: 12px;
+}
+.scratch-card::after {
+  content: "✦";
+  position: absolute;
+  right: 11px;
+  bottom: 8px;
+  color: #a98d53;
+  font-size: 12px;
+}
+.scratch-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 108px;
+  gap: 7px;
+  padding: 18px 18px 20px;
+  text-align: center;
+}
+.scratch-card-content .eyebrow {
+  color: #9a7b43;
+  font-size: 8px;
+  letter-spacing: .24em;
+}
+.scratch-card-content strong {
+  color: #274330;
+  font: 400 clamp(17px, 3.5vw, 23px)/1.3 "Playfair Display", Georgia, serif;
+}
+.scratch-card-note {
+  color: #7b735f;
+  font: italic 12px "Cormorant Garamond", Georgia, serif;
+}
+.scratch-reveal-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+  touch-action: none;
+}
+.scratch-card.is-revealed {
+  animation: dateReveal 600ms cubic-bezier(.2,.8,.2,1) both;
+}
+.scratch-card.is-revealed .scratch-card-content {
+  animation: dateTextReveal 700ms ease both;
+}
+@keyframes dateReveal {
+  from { transform: scale(.97); box-shadow: 0 0 0 rgba(182,152,91,0); }
+  60% { transform: scale(1.025); box-shadow: 0 10px 40px rgba(182,152,91,.28); }
+  to { transform: scale(1); box-shadow: 0 9px 27px rgba(48,50,35,.1); }
+}
+@keyframes dateTextReveal {
+  from { opacity: .15; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.ornamental-rule span {
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+}
+.event-card {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(182, 152, 91, .58);
+  box-shadow: inset 0 0 0 5px rgba(182, 152, 91, .045);
+  background:
+    radial-gradient(ellipse at top, rgba(240, 229, 200, .58), transparent 60%),
+    rgba(255, 253, 246, .84);
+}
+.event-card::before,
+.family-card::before {
+  content: "❧";
+  position: absolute;
+  top: 9px;
+  left: 11px;
+  color: rgba(182, 152, 91, .58);
+  font-size: 21px;
+  pointer-events: none;
+}
+.event-card::after {
+  content: "❧";
+  position: absolute;
+  right: 10px;
+  bottom: 3px;
+  color: rgba(182, 152, 91, .45);
+  font-size: 21px;
+  transform: rotate(180deg);
+  pointer-events: none;
+}
+.family-section {
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(128, 153, 109, .36), transparent 55%),
+    repeating-linear-gradient(45deg, rgba(225, 208, 157, .028) 0 1px, transparent 1px 14px),
+    #1a3828;
+}
+.family-card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .035);
+  box-shadow: inset 0 0 0 4px rgba(225, 208, 157, .035);
+}
+.family-card::before {
+  top: 5px;
+  left: 8px;
+  color: rgba(225, 208, 157, .45);
+}
+.gallery-item {
+  box-shadow: 0 7px 25px rgba(33, 43, 31, .08);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 17px 35px rgba(33, 43, 31, .14);
+}
+.venue-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, .88), transparent 62%),
+    repeating-linear-gradient(45deg, rgba(182, 152, 91, .025) 0 1px, transparent 1px 12px),
+    rgba(255, 253, 246, .55);
+  box-shadow: 0 12px 45px rgba(46, 47, 33, .04);
+}
+.venue-card::before,
+.venue-card::after {
+  content: "❧";
+  position: absolute;
+  top: 12px;
+  color: rgba(182, 152, 91, .52);
+  font-size: 40px;
+}
+.venue-card::before { left: 12px; transform: rotate(-45deg); }
+.venue-card::after { right: 12px; transform: scaleX(-1) rotate(-45deg); }
+.rsvp-form {
+  border-color: rgba(182, 152, 91, .6);
+  box-shadow: inset 0 0 0 5px rgba(182, 152, 91, .045);
+}
+.site-footer {
+  background:
+    radial-gradient(ellipse at top, rgba(255, 255, 255, .68), transparent 65%),
+    repeating-linear-gradient(45deg, rgba(182, 152, 91, .024) 0 1px, transparent 1px 12px),
+    #eee5d1;
+}
+.music-button {
+  border-color: rgba(182, 152, 91, .68);
+  box-shadow: 0 8px 28px rgba(32, 47, 32, .16), inset 0 0 0 3px rgba(182, 152, 91, .06);
+}
+@media (max-width: 760px) {
+  .gate-screen::before { inset: 9px; }
+  .gate-screen::after { top: 15px; font-size: 12px; letter-spacing: .6em; }
+  .gate-caption { top: 7.5%; }
+  .gate-doors { top: 24%; bottom: 21%; width: 88vw; }
+  .door-inner { inset: 8px; }
+  .door-crown { margin-top: 2px; }
+  .door-arch { width: 78%; height: 64%; }
+  .door-ornament { margin-top: 0; }
+  .gate-open-button { bottom: 13%; min-height: 43px; }
+  .gate-bottom-note { bottom: 5%; letter-spacing: .13em; }
+  .scratch-card { width: min(340px, 92%); min-height: 101px; }
+  .scratch-card-content { min-height: 101px; padding: 16px 15px; }
+  .venue-card::before, .venue-card::after { opacity: .5; font-size: 30px; }
+}
+@media (max-width: 390px) {
+  .gate-doors { top: 24%; bottom: 22%; }
+  .gate-caption { top: 8%; }
+  .gate-monogram { margin-top: 9px; }
+  .gate-caption .script { font-size: 25px; }
+  .door-crown { font-size: 18px; }
+  .door-handle { width: 8px; height: 8px; }
+  .scratch-card-content strong { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-sparkles span { animation: none; }
+  .scratch-card.is-revealed,
+  .scratch-card.is-revealed .scratch-card-content { animation: none; }
+}
