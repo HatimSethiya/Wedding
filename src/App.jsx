@@ -259,7 +259,7 @@ function GateReveal({ onOpen }) {
       <video
         ref={videoRef}
         className="gate-opening-video"
-        src="https://id-preview--fe6cb889-3609-4325-aafb-eb27d9dfd8b1.lovable.app/__l5e/assets-v1/ed2c9cdc-e26f-46e3-8d7e-c91764fe28f1/demo-v3-royal-grace.mp4"
+        src="/wedding-opening.mp4"
         playsInline
         preload="auto"
         muted={muted}
