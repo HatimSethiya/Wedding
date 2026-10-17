@@ -1014,7 +1014,7 @@ body, button, input, select, textarea {
   text-align: center;
   opacity: .0;
   transform: translateY(12px);
-  transition: opacity .6s ease .95s, transform .7s ease .95s;
+  transition: opacity .45s ease .18s, transform .55s ease .18s;
 }
 .gate-backdrop-copy .eyebrow {
   color: #888a6f;
@@ -2084,4 +2084,159 @@ body, button, input, select, textarea {
   .gate-door,
   .gate-backdrop-curtain,
   .gate-backdrop-copy { transition-duration: .01ms; }
+}
+
+
+/* Royal Grace motion and slideshow finishing pass */
+.royal-cover-frame::before,
+.royal-cover-frame::after {
+  content: none !important;
+}
+.royal-cover .hero-frame {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1);
+}
+.royal-cover .hero-frame.is-in-view,
+.floral-section.is-in-view,
+.save-date-section.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.cover-curtain {
+  transform-origin: top center;
+}
+.royal-cover .cover-curtain-left {
+  animation: curtainSettleLeft 1.2s cubic-bezier(.2,.7,.2,1) both;
+}
+.royal-cover .cover-curtain-right {
+  animation: curtainSettleRight 1.2s cubic-bezier(.2,.7,.2,1) both;
+}
+@keyframes curtainSettleLeft {
+  from { opacity: .4; transform: translateY(-12px) scaleY(.96); }
+  to { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+@keyframes curtainSettleRight {
+  from { opacity: .4; transform: translateY(-12px) scaleY(.96); }
+  to { opacity: 1; transform: translateY(0) scaleY(1); }
+}
+.royal-cover .cover-heart {
+  text-shadow: 0 2px 8px rgba(89,93,67,.14);
+}
+.cover-curtain-left::after,
+.cover-curtain-right::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 18px;
+  height: 110px;
+  border-right: 1px solid rgba(165,138,91,.45);
+  border-radius: 0 0 55% 0;
+  background: linear-gradient(90deg, transparent, rgba(176,146,101,.22));
+}
+.cover-curtain-left::after { right: 4%; }
+.cover-curtain-right::after {
+  left: 4%;
+  transform: scaleX(-1);
+}
+.save-date-photo {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 390px;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 0;
+  margin: 0 auto 41px;
+  padding: 5px;
+  overflow: visible;
+  border: 1px solid rgba(177,151,108,.56);
+  background: #fff8e8;
+  box-shadow: 0 9px 21px rgba(78,67,45,.11), inset 0 0 0 3px rgba(255,255,255,.5);
+}
+.save-date-photo > img {
+  position: relative;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.photo-slide-caption {
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  bottom: 5px;
+  left: 5px;
+  padding: 24px 9px 18px;
+  color: #fff8e5;
+  background: linear-gradient(transparent, rgba(34,47,32,.64));
+  text-align: center;
+  font: 7px "Marcellus", Georgia, serif;
+  letter-spacing: .16em;
+  pointer-events: none;
+}
+.photo-slide-arrow {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 1px solid rgba(246,236,208,.82);
+  border-radius: 50%;
+  color: #fff8df;
+  background: rgba(72,91,63,.68);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background .2s, transform .2s;
+}
+.photo-slide-arrow:hover {
+  background: #647956;
+}
+.photo-slide-prev { left: 12px; }
+.photo-slide-next { right: 12px; }
+.photo-slide-dots {
+  position: absolute;
+  z-index: 4;
+  right: 0;
+  bottom: -25px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+.photo-slide-dots button {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 1px solid #889477;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform .25s, background .25s;
+}
+.photo-slide-dots button.is-active {
+  background: #6e805f;
+  transform: scale(1.2);
+}
+@media (max-width: 430px) {
+  .royal-cover-frame {
+    padding-top: 212px;
+    padding-bottom: 215px;
+  }
+  .cover-curtain { height: 280px; }
+  .cover-garden { height: 222px; }
+  .save-date-photo { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .royal-cover .cover-curtain-left,
+  .royal-cover .cover-curtain-right { animation: none; }
+  .royal-cover .hero-frame,
+  .floral-section,
+  .save-date-section { transition: none; transform: none; opacity: 1; }
 }
