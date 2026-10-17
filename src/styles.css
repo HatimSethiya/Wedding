@@ -2240,3 +2240,25 @@ body, button, input, select, textarea {
   .floral-section,
   .save-date-section { transition: none; transform: none; opacity: 1; }
 }
+
+
+/* Scroll reveal timing for each parchment page */
+.floral-section,
+.save-date-section {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .72s ease, transform .72s cubic-bezier(.2,.7,.2,1);
+}
+.floral-section.is-in-view,
+.save-date-section.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .floral-section,
+  .save-date-section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
