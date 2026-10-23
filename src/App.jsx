@@ -195,7 +195,6 @@ function GateReveal({ onOpen }) {
   const [videoReady, setVideoReady] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
-  const [showCoupleNames, setShowCoupleNames] = useState(false);
   const [muted, setMuted] = useState(true);
 
   useEffect(() => () => {
@@ -242,13 +241,7 @@ function GateReveal({ onOpen }) {
 
   const handleVideoEnded = () => {
     setVideoPlaying(false);
-    setShowCoupleNames(false);
     onOpen();
-  };
-
-  const handleVideoTimeUpdate = () => {
-    const currentTime = videoRef.current?.currentTime ?? 0;
-    setShowCoupleNames(currentTime >= 5.8);
   };
 
   const toggleSound = () => {
@@ -273,7 +266,6 @@ function GateReveal({ onOpen }) {
         muted={muted}
         onLoadedData={() => setVideoReady(true)}
         onCanPlay={() => setVideoReady(true)}
-        onTimeUpdate={handleVideoTimeUpdate}
         onEnded={handleVideoEnded}
         onError={handleVideoError}
         onClick={open}
@@ -287,14 +279,6 @@ function GateReveal({ onOpen }) {
         tabIndex={videoReady && !videoFailed ? 0 : -1}
         aria-label="Tap to open and play the wedding invitation"
       />
-
-      {videoPlaying && showCoupleNames && (
-        <div className="gate-video-name-overlay" aria-label={`${wedding.bride} and ${wedding.groom}`}>
-          <span className="gate-video-name">{wedding.bride}</span>
-          <span className="gate-video-name-ampersand">&</span>
-          <span className="gate-video-name">{wedding.groom}</span>
-        </div>
-      )}
 
       <div className="gate-glow" />
       <div className="gate-backdrop">
