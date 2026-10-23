@@ -308,6 +308,7 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
       <video
         ref={videoRef}
         className="gate-opening-video"
+        style={{ "--cover-scale-x": coverScale.x, "--cover-scale-y": coverScale.y }}
         src="/wedding-opening.mp4"
         playsInline
         preload="auto"
