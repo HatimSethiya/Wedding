@@ -2424,7 +2424,7 @@ body, button, input, select, textarea {
 .gate-screen.has-video-frame.is-cover-transitioning .gate-opening-video {
   opacity: 0;
   pointer-events: none;
-  transform: scale(var(--cover-scale-x, 1), var(--cover-scale-y, 1));
+  transform: translate(var(--cover-offset-x, 0px), var(--cover-offset-y, 0px)) scale(var(--cover-scale-x, 1), var(--cover-scale-y, 1));
   transform-origin: center center;
   transition:
     transform 1.05s cubic-bezier(.2, .78, .25, 1),
