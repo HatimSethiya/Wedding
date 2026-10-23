@@ -212,6 +212,7 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
 
     const video = videoRef.current;
     if (video) video.pause();
+    window.scrollTo({ top: 0, behavior: "instant" });
 
     const cover = document.querySelector(".hero.royal-cover .hero-frame");
     cover?.classList.add("is-opening-target");
@@ -463,7 +464,6 @@ function App() {
           <GateReveal
             onBeginCoverTransition={() => {
               setOpened(true);
-              window.scrollTo({ top: 0, behavior: "instant" });
             }}
             onComplete={() => setGateVisible(false)}
           />
