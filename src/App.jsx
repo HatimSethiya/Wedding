@@ -249,12 +249,6 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
     transitionTimer.current = window.setTimeout(onComplete, 1250);
   };
 
-  const handleVideoTimeUpdate = () => {
-    const video = videoRef.current;
-    if (!video || transitionStarted.current || !Number.isFinite(video.duration)) return;
-    if (video.duration - video.currentTime <= 0.85) beginCoverTransition();
-  };
-
   const runCssFallback = () => {
     setVideoFailed(true);
     setVideoPlaying(false);
@@ -307,7 +301,7 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
       className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""} ${videoReady && !videoFailed ? "has-video-frame" : ""} ${videoFailed ? "video-failed" : ""} ${videoPlaying ? "is-video-playing" : ""} ${coverTransitioning ? "is-cover-transitioning" : ""}`}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: .65 }}
+      transition={{ duration: coverTransitioning ? 0 : .65 }}
     >
       <video
         ref={videoRef}
@@ -324,7 +318,6 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
         muted={muted}
         onLoadedData={() => setVideoReady(true)}
         onCanPlay={() => setVideoReady(true)}
-        onTimeUpdate={handleVideoTimeUpdate}
         onEnded={handleVideoEnded}
         onError={handleVideoError}
         onClick={open}
