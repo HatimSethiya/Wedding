@@ -2394,6 +2394,13 @@ body, button, input, select, textarea {
 }
 
 
+/* Keep the real invitation card ready underneath the final video frame. */
+.royal-cover .hero-frame.is-opening-target {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
+}
+
 /* Morph the final video card into the live invitation cover. */
 .gate-screen.is-cover-transitioning {
   background: transparent !important;
