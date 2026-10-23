@@ -193,7 +193,7 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
   const transitionTimer = useRef(null);
   const transitionStarted = useRef(false);
   const [coverTransitioning, setCoverTransitioning] = useState(false);
-  const [coverScale, setCoverScale] = useState({ x: 1, y: 1 });
+  const [coverScale, setCoverScale] = useState({ x: 1, y: 1, offsetX: 0, offsetY: 0 });
   const [opening, setOpening] = useState(false);
   const [curtainsOpen, setCurtainsOpen] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
@@ -213,7 +213,8 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
     const video = videoRef.current;
     if (video) video.pause();
 
-    const cover = document.querySelector(".hero.royal-cover");
+    const cover = document.querySelector(".hero.royal-cover .hero-frame");
+    cover?.classList.add("is-opening-target");
     const coverBounds = cover?.getBoundingClientRect();
     const viewportWidth = video?.clientWidth || window.innerWidth;
     const viewportHeight = video?.clientHeight || window.innerHeight;
@@ -237,7 +238,9 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
 
     setCoverScale({
       x: Math.max(0.4, Math.min(1.8, scaleX)),
-      y: Math.max(0.85, Math.min(1.2, scaleY))
+      y: Math.max(0.85, Math.min(1.2, scaleY)),
+      offsetX: coverBounds ? coverBounds.left + coverBounds.width / 2 - viewportWidth / 2 : 0,
+      offsetY: coverBounds ? coverBounds.top + coverBounds.height / 2 - viewportHeight / 2 : 0
     });
     setVideoPlaying(false);
     setCoverTransitioning(true);
@@ -308,7 +311,12 @@ function GateReveal({ onBeginCoverTransition, onComplete }) {
       <video
         ref={videoRef}
         className="gate-opening-video"
-        style={{ "--cover-scale-x": coverScale.x, "--cover-scale-y": coverScale.y }}
+        style={{
+          "--cover-scale-x": coverScale.x,
+          "--cover-scale-y": coverScale.y,
+          "--cover-offset-x": `${coverScale.offsetX}px`,
+          "--cover-offset-y": `${coverScale.offsetY}px`
+        }}
         src="/wedding-opening.mp4"
         playsInline
         preload="auto"
