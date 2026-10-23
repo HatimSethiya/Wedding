@@ -2392,3 +2392,40 @@ body, button, input, select, textarea {
 .gate-screen:not(.has-video-frame):not(.video-failed) .gate-plaque {
   visibility: hidden;
 }
+
+
+/* Morph the final video card into the live invitation cover. */
+.gate-screen.is-cover-transitioning {
+  background: transparent !important;
+}
+.gate-screen.is-cover-transitioning::before,
+.gate-screen.is-cover-transitioning::after {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+.gate-screen.is-cover-transitioning .gate-glow,
+.gate-screen.is-cover-transitioning .gate-backdrop,
+.gate-screen.is-cover-transitioning .gate-doors,
+.gate-screen.is-cover-transitioning .gate-hanging-line,
+.gate-screen.is-cover-transitioning .gate-plaque,
+.gate-screen.is-cover-transitioning .gate-watermark,
+.gate-screen.is-cover-transitioning .gate-bottom-note,
+.gate-screen.is-cover-transitioning .gate-sound-button {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.gate-screen.has-video-frame.is-cover-transitioning .gate-opening-video {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(var(--cover-scale-x, 1), var(--cover-scale-y, 1));
+  transform-origin: center center;
+  transition:
+    transform 1.05s cubic-bezier(.2, .78, .25, 1),
+    opacity .28s ease .78s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gate-screen.has-video-frame.is-cover-transitioning .gate-opening-video {
+    transition-duration: .01ms;
+    transition-delay: 0ms;
+  }
+}
