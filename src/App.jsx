@@ -187,9 +187,13 @@ function ScratchReveal({ dateLabel }) {
 }
 
 
-function GateReveal({ onOpen }) {
+function GateReveal({ onBeginCoverTransition, onComplete }) {
   const videoRef = useRef(null);
   const fallbackTimers = useRef([]);
+  const transitionTimer = useRef(null);
+  const transitionStarted = useRef(false);
+  const [coverTransitioning, setCoverTransitioning] = useState(false);
+  const [coverScale, setCoverScale] = useState({ x: 1, y: 1 });
   const [opening, setOpening] = useState(false);
   const [curtainsOpen, setCurtainsOpen] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
@@ -199,7 +203,53 @@ function GateReveal({ onOpen }) {
 
   useEffect(() => () => {
     fallbackTimers.current.forEach((timer) => window.clearTimeout(timer));
+    if (transitionTimer.current) window.clearTimeout(transitionTimer.current);
   }, []);
+
+  const beginCoverTransition = () => {
+    if (transitionStarted.current) return;
+    transitionStarted.current = true;
+
+    const video = videoRef.current;
+    if (video) video.pause();
+
+    const cover = document.querySelector(".hero.royal-cover");
+    const coverBounds = cover?.getBoundingClientRect();
+    const viewportWidth = video?.clientWidth || window.innerWidth;
+    const viewportHeight = video?.clientHeight || window.innerHeight;
+    let scaleX = 1;
+    let scaleY = 1;
+
+    if (video?.videoWidth && video.videoHeight && coverBounds?.width) {
+      const videoScale = Math.max(
+        viewportWidth / video.videoWidth,
+        viewportHeight / video.videoHeight
+      );
+      const videoCardWidth = video.videoWidth * videoScale * 0.51;
+      if (videoCardWidth > 0) scaleX = coverBounds.width / videoCardWidth;
+    } else if (coverBounds?.width) {
+      scaleX = coverBounds.width / (viewportWidth * 0.51);
+    }
+
+    if (coverBounds?.height && viewportHeight > 0) {
+      scaleY = coverBounds.height / viewportHeight;
+    }
+
+    setCoverScale({
+      x: Math.max(0.4, Math.min(1.8, scaleX)),
+      y: Math.max(0.85, Math.min(1.2, scaleY))
+    });
+    setVideoPlaying(false);
+    setCoverTransitioning(true);
+    onBeginCoverTransition();
+    transitionTimer.current = window.setTimeout(onComplete, 1250);
+  };
+
+  const handleVideoTimeUpdate = () => {
+    const video = videoRef.current;
+    if (!video || transitionStarted.current || !Number.isFinite(video.duration)) return;
+    if (video.duration - video.currentTime <= 0.85) beginCoverTransition();
+  };
 
   const runCssFallback = () => {
     setVideoFailed(true);
@@ -208,12 +258,12 @@ function GateReveal({ onOpen }) {
     fallbackTimers.current.forEach((timer) => window.clearTimeout(timer));
     fallbackTimers.current = [
       window.setTimeout(() => setCurtainsOpen(true), 720),
-      window.setTimeout(onOpen, 2800)
+      window.setTimeout(beginCoverTransition, 2800)
     ];
   };
 
   const open = () => {
-    if (opening) return;
+    if (opening || transitionStarted.current) return;
     setOpening(true);
 
     const video = videoRef.current;
@@ -239,8 +289,7 @@ function GateReveal({ onOpen }) {
   };
 
   const handleVideoEnded = () => {
-    setVideoPlaying(false);
-    onOpen();
+    beginCoverTransition();
   };
 
   const toggleSound = () => {
@@ -251,7 +300,7 @@ function GateReveal({ onOpen }) {
 
   return (
     <motion.div
-      className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""} ${videoReady && !videoFailed ? "has-video-frame" : ""} ${videoFailed ? "video-failed" : ""} ${videoPlaying ? "is-video-playing" : ""}`}
+      className={`gate-screen ${opening ? "is-opening" : ""} ${curtainsOpen ? "curtains-open" : ""} ${videoReady && !videoFailed ? "has-video-frame" : ""} ${videoFailed ? "video-failed" : ""} ${videoPlaying ? "is-video-playing" : ""} ${coverTransitioning ? "is-cover-transitioning" : ""}`}
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: .65 }}
@@ -265,6 +314,7 @@ function GateReveal({ onOpen }) {
         muted={muted}
         onLoadedData={() => setVideoReady(true)}
         onCanPlay={() => setVideoReady(true)}
+        onTimeUpdate={handleVideoTimeUpdate}
         onEnded={handleVideoEnded}
         onError={handleVideoError}
         onClick={open}
@@ -341,6 +391,7 @@ function GateReveal({ onOpen }) {
 
 function App() {
   const [opened, setOpened] = useState(false);
+  const [gateVisible, setGateVisible] = useState(true);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(null);
   const [heroPhotoIndex, setHeroPhotoIndex] = useState(0);
@@ -399,7 +450,15 @@ function App() {
   return (
     <main className="site-shell">
       <AnimatePresence>
-        {!opened && <GateReveal onOpen={() => { setOpened(true); window.scrollTo({ top: 0, behavior: "instant" }); }} />}
+        {gateVisible && (
+          <GateReveal
+            onBeginCoverTransition={() => {
+              setOpened(true);
+              window.scrollTo({ top: 0, behavior: "instant" });
+            }}
+            onComplete={() => setGateVisible(false)}
+          />
+        )}
       </AnimatePresence>
 
       <div className={`invitation-site ${opened ? "is-visible" : ""}`} aria-hidden={!opened}>
