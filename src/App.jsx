@@ -215,7 +215,6 @@ function GateReveal({ onOpen }) {
   const open = () => {
     if (opening) return;
     setOpening(true);
-    setShowCoupleNames(false);
 
     const video = videoRef.current;
     if (video && !videoFailed) {
